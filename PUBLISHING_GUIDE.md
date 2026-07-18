@@ -107,68 +107,64 @@ wheel build on push.
 
 ---
 
-## 2. Rebuild the artifacts (only if code changed after 2026-07-18)
+## 2. Build the artifacts with `uv` (recommended)
 
-The environment note: `uv`'s managed-Python download is currently broken on this
-machine ("Missing expected target directory for Python minor version link"), so
-use an explicit interpreter. A known-good one is at
-`C:\Users\nib37\AppData\Roaming\uv\python\cpython-3.12.13-windows-x86_64-none\python.exe`.
+Use `uv`, which is already on your PATH and picks its own interpreter, so there is
+no fragile hardcoded Python path. Run from inside the repo (`.../choircert`):
 
 ```bash
-# from choir/
-PY="C:/Users/nib37/AppData/Roaming/uv/python/cpython-3.12.13-windows-x86_64-none/python.exe"
-"$PY" -m venv .buildenv
-.buildenv/Scripts/python -m pip install --upgrade build twine
-rm -f dist/*.whl dist/*.tar.gz
-.buildenv/Scripts/python -m build
-.buildenv/Scripts/python -m twine check dist/*
+uv build                 # writes dist/choircert-0.1.0.tar.gz and .whl
+uvx twine check dist/*   # both should print PASSED
 ```
 
-All four lines should succeed and `twine check` should print `PASSED` twice.
+> Do NOT paste a `C:/Users/.../python.exe` path into MINGW/Git Bash; a trailing
+> carriage return from the paste makes bash report "No such file or directory"
+> even when the file exists. `uv` sidesteps this entirely.
+
+Verified 2026-07-18: `uv build` produces both artifacts and `uvx twine check`
+passes for both; the demo table is present in the wheel.
 
 ---
 
 ## 3. PyPI
 
 You need a PyPI account and an API token. Create the token at
-<https://pypi.org/manage/account/token/> (scope it to the `choircert` project
-after the first upload, or use an account-wide token for the first upload).
+<https://pypi.org/manage/account/token/> (use an account-wide token for the first
+upload; scope it to the `choircert` project afterward).
 
 ### 3a. Dry run on TestPyPI first (strongly recommended)
 
-Create a separate token at <https://test.pypi.org/manage/account/token/>.
+Create a separate token at <https://test.pypi.org/manage/account/token/>, then
+publish the built artifacts with `uv publish`:
 
 ```bash
-# from choir/
-.buildenv/Scripts/python -m twine upload --repository testpypi dist/*
-# username: __token__
-# password: <your TestPyPI token, including the pypi- prefix>
+uv publish --publish-url https://test.pypi.org/legacy/ --token pypi-XXXXXXXX
 ```
 
-Then verify the install from TestPyPI in a throwaway environment:
+Verify a clean install from TestPyPI (a throwaway environment via uv):
 
 ```bash
-"$PY" -m venv .testenv
-.testenv/Scripts/python -m pip install \
-  --index-url https://test.pypi.org/simple/ \
-  --extra-index-url https://pypi.org/simple/ \
-  choircert
-.testenv/Scripts/python -c "from choir.datasets import load_demo; print(len(load_demo()[0]), 'rows')"
+uv run --no-project --with "choircert" \
+  --index "https://test.pypi.org/simple/" \
+  --index-strategy unsafe-best-match \
+  python -c "from choir.datasets import load_demo; print(len(load_demo()[0]), 'rows')"
 ```
 
-The `--extra-index-url` is needed so `numpy` resolves from real PyPI.
+The extra index strategy lets `numpy` resolve from real PyPI while `choircert`
+comes from TestPyPI. It should print `6000 rows`.
 
 ### 3b. Real upload
 
 ```bash
-# from choir/
-.buildenv/Scripts/python -m twine upload dist/*
-# username: __token__
-# password: <your PyPI token, including the pypi- prefix>
+uv publish --token pypi-XXXXXXXX
 ```
 
-After this, `pip install choircert` works for everyone. The README's install
-line becomes true at this point.
+(`uv publish` defaults to the real PyPI.) After this, `pip install choircert`
+works for everyone and the README install line is true.
+
+> Prefer `twine` instead? `uvx twine upload --repository testpypi dist/*` then
+> `uvx twine upload dist/*`, entering `__token__` as the username and the token
+> (with its `pypi-` prefix) as the password.
 
 > Version numbers on PyPI are immutable: you cannot re-upload `0.1.0` after it is
 > published. If you find a problem, bump to `0.1.1` in `pyproject.toml`, rebuild,
