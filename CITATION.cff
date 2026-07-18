@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper."
+title: "CHOIR: a certification layer for ordinal, safety-critical prediction"
+type: software
+authors:
+  - family-names: Rafe
+    given-names: Amir
+    orcid: "https://orcid.org/0000-0002-4089-2088"
+    affiliation: "Texas State University"
+  - family-names: Das
+    given-names: Subasish
+    orcid: "https://orcid.org/0000-0002-1671-2753"
+    affiliation: "Texas State University"
+license: MIT
+repository-code: "https://github.com/pozapas/choircert"
+version: 0.1.0
+keywords:
+  - conformal prediction
+  - ordinal classification
+  - distribution-free inference
+  - risk control
+  - trustworthy AI
+preferred-citation:
+  type: article
+  title: "Certified crash-severity prediction from ordinal structure"
+  authors:
+    - family-names: Rafe
+      given-names: Amir
+    - family-names: Das
+      given-names: Subasish
+  journal: "Transportation Research Part B: Methodological"
+  year: 2026
+  notes: "Under review; special issue on Mathematical Foundations for Trustworthy AI in Transportation."

@@ -1,0 +1,12 @@
+{
+  "title": "CHOIR: a certification layer for ordinal, safety-critical prediction",
+  "description": "Model-agnostic distribution-free certification for ordinal severity models: contiguous prediction sets with heterogeneity-conditional coverage, true-label guarantees under banded reporting noise, spatiotemporal transfer certificates, and severity-weighted risk control, all composable.",
+  "license": "MIT",
+  "upload_type": "software",
+  "keywords": ["conformal prediction", "ordinal classification", "distribution-free inference",
+               "risk control", "trustworthy AI", "crash severity"],
+  "creators": [
+    {"name": "Rafe, Amir", "affiliation": "Texas State University", "orcid": "0000-0002-4089-2088"},
+    {"name": "Das, Subasish", "affiliation": "Texas State University", "orcid": "0000-0002-1671-2753"}
+  ]
+}

@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+.buildenv/
+.testenv/
+.env/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Docs build
+site/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# NOTE: src/choir/datasets/demo_fars.csv is a public FARS-schema demo (no PII)
+# and MUST stay tracked. Do not add a blanket *.csv ignore here.

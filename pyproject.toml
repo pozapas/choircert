@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "choircert"
+version = "0.1.0"
+description = "A certification layer for ordinal, safety-critical prediction: distribution-free validity, label-noise robustness, deployment-shift certificates, and severity-weighted risk control."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Amir Rafe", email = "amir.rafe@txstate.edu" },
+  { name = "Subasish Das", email = "subasish@txstate.edu" },
+]
+keywords = ["conformal prediction", "ordinal classification", "uncertainty quantification",
+            "distribution-free inference", "risk control", "crash severity", "trustworthy AI"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = ["numpy>=1.24"]
+
+[project.urls]
+Homepage = "https://github.com/pozapas/choircert"
+Repository = "https://github.com/pozapas/choircert"
+Issues = "https://github.com/pozapas/choircert/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "hypothesis>=6", "ruff>=0.5"]
+torch = ["torch>=2.0"]
+econ = ["scipy>=1.10"]
+maps = ["matplotlib>=3.7"]
+# Third-party conformal toolkits compared against CHOIR in
+# benchmarks/vs_mapie_crepes.py (paper Table 7). Both bounds are load-bearing:
+# the script targets MAPIE's v1.x SplitConformalClassifier API
+# (conformalize/predict_set), which replaced the v0.x MapieClassifier API, so
+# <2.0 guards against a future rename and >=1.0 excludes the old path. crepes
+# >=0.7 is the line whose WrapClassifier.predict_set accepts the `labels=`
+# keyword the script passes.
+benchmarks = ["mapie>=1.0,<2.0", "crepes>=0.7,<1.0", "scikit-learn>=1.4"]
+
+# Ship the bundled demo table even though the repo .gitignore excludes *.csv
+# (PII guard). `artifacts` forces it into BOTH sdist and wheel regardless of
+# VCS-ignore status, so `python -m build` (wheel-from-sdist) and fresh clones
+# both carry it. See RELEASE.md.
+[tool.hatch.build]
+artifacts = ["src/choir/datasets/demo_fars.csv"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/choir"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/choir", "tests", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
