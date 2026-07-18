@@ -13,7 +13,12 @@ authors:
     affiliation: "Texas State University"
 license: MIT
 repository-code: "https://github.com/pozapas/choircert"
+doi: "10.5281/zenodo.21434172"
 version: 0.1.0
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21434172"
+    description: "Concept DOI (resolves to the latest version)."
 keywords:
   - conformal prediction
   - ordinal classification

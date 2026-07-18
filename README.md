@@ -1,5 +1,9 @@
 # CHOIR
 
+[![PyPI version](https://img.shields.io/pypi/v/choircert.svg)](https://pypi.org/project/choircert/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21434172.svg)](https://doi.org/10.5281/zenodo.21434172)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 **A certification layer for ordinal, safety-critical prediction.** Distribution name
 on PyPI: `choircert`; import name: `choir`.
 
