@@ -1,11 +1,10 @@
-"""Benchmark CHOIR, MAPIE, and crepes on the same ordinal task.
+"""Compare CHOIR, MAPIE, and crepes on one fixed ordinal task.
 
-All three are valid conformal methods and all attain marginal coverage; the point is
-NOT that CHOIR covers better marginally (it does not, and should not, the guarantee is
-the same). The point is what the generic toolkits do not provide for an ordinal,
-safety-critical target: contiguous interval sets, coverage transferred to the true
-(noisy) label, and a fatal-omission guarantee. This script prints the comparison table
-used in the README, computed on the bundled demo data.
+All three methods target marginal coverage. This benchmark does not establish general
+superiority. It records empirical observed-label coverage, set size, and contiguity on
+the bundled demonstration. It also identifies the additional certification branches
+included in this CHOIR workflow. The comparison does not imply that another library
+cannot be extended with user code.
 """
 from __future__ import annotations
 
@@ -14,12 +13,11 @@ from pathlib import Path
 
 import numpy as np
 
+from choir import NoiseModel, cdf_from_proba, cumulative_score, interval_sets, split_calibrate
 from choir.datasets import load_demo
-from choir import (cumulative_score, interval_sets, split_calibrate, cdf_from_proba,
-                   NoiseModel)
-
 
 OUT = Path(__file__).resolve().parent / "results" / "generic_tool_benchmark.csv"
+SEED = 20260704
 
 
 def encode(rows, cols):
@@ -44,7 +42,7 @@ def main():
     rows, y, cols = load_demo()
     y = np.array(y)
     X = encode(rows, cols)
-    rng = np.random.default_rng(20260704)
+    rng = np.random.default_rng(SEED)
     idx = rng.permutation(len(y))
     tr, ca, te = np.split(idx, [int(0.5 * len(y)), int(0.75 * len(y))])
 
@@ -65,7 +63,7 @@ def main():
     cov = np.mean((y[te] >= lo) & (y[te] <= hi))
     contig = True  # guaranteed by construction (Lemma 1)
     nm = NoiseModel.kabco(delta=0.02)
-    lo_e, hi_e = nm.expand(lo, hi)
+    _lo_expanded, _hi_expanded = nm.expand(lo, hi)
     results["CHOIR"] = {
         "coverage": cov, "avg_size": np.mean(hi - lo + 1), "contiguous": contig,
         "true_label_guarantee": True, "fatal_omission_guarantee": True,
@@ -90,14 +88,14 @@ def main():
             "contiguous": contig_frac == 1.0, "contig_frac": contig_frac,
             "true_label_guarantee": False, "fatal_omission_guarantee": False,
         }
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - record optional-tool failures in the result
         results["MAPIE"] = {"error": f"{type(e).__name__}: {e}"}
 
     # ---- crepes (generic conformal classifier) ----
     try:
         from crepes import WrapClassifier
         wc = WrapClassifier(clf)
-        wc.calibrate(X[ca], y[ca])
+        wc.calibrate(X[ca], y[ca], seed=SEED)
         sets = np.asarray(wc.predict_set(X[te], confidence=1 - alpha, labels=False))
         covered = sets[np.arange(len(te)), cls_idx]
         contig_frac = _contiguity_fraction(sets, classes)
@@ -106,7 +104,7 @@ def main():
             "contiguous": contig_frac == 1.0, "contig_frac": contig_frac,
             "true_label_guarantee": False, "fatal_omission_guarantee": False,
         }
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - record optional-tool failures in the result
         results["crepes"] = {"error": f"{type(e).__name__}: {e}"}
 
     _print_table(results, alpha)
@@ -140,8 +138,9 @@ def _print_table(results, alpha):
         print(f"{name:<8} {r['coverage']:>9.3f} {r['avg_size']:>9.2f} {contig:>11} "
               f"{'yes' if r['true_label_guarantee'] else 'no':>11} "
               f"{'yes' if r['fatal_omission_guarantee'] else 'no':>10}")
-    print("\nAll methods attain marginal coverage; only CHOIR guarantees contiguous")
-    print("ordinal sets, true-label transfer under banded noise, and fatal-omission control.")
+    print("\nAll methods target marginal coverage in this fixed workflow.")
+    print("CHOIR also includes contiguous ordinal construction, declared-map transfer,")
+    print("and fatal-omission control under their stated assumptions.")
 
 
 def _write_results(results, alpha):

@@ -1,4 +1,4 @@
 method,alpha,coverage,avg_size,contiguity_fraction,contiguous_by_construction,true_label_guarantee,fatal_omission_guarantee,error
 CHOIR,0.1,0.8953333333333333,2.192,1.0,True,True,True,
 MAPIE,0.1,0.8993333333333333,2.2186666666666666,0.9906666666666667,False,False,False,
-crepes,0.1,0.8993333333333333,2.218,0.9906666666666667,False,False,False,
+crepes,0.1,0.8993333333333333,2.2186666666666666,0.9906666666666667,False,False,False,

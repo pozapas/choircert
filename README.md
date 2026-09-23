@@ -1,6 +1,7 @@
 # CHOIR
 
 [![PyPI version](https://img.shields.io/pypi/v/choircert.svg)](https://pypi.org/project/choircert/)
+[![CI](https://github.com/pozapas/choircert/actions/workflows/ci.yml/badge.svg)](https://github.com/pozapas/choircert/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21434172.svg)](https://doi.org/10.5281/zenodo.21434172)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -60,24 +61,31 @@ These tests are software checks; they do not validate the assumptions for a new 
 
 ## How it compares
 
-Generic conformal toolkits (MAPIE, crepes, puncc) provide split and Mondrian machinery.
-They are correct and attain marginal coverage under their stated conditions. What they do
-not provide as a common interface for an ordinal, safety-critical target is contiguous
-sets, a declared reporting-noise expansion, and a severity-cost risk certificate. The
-table below is a bundled-demo benchmark at a nominal 0.90 level; it is empirical and is
-not a cross-dataset guarantee.
+MAPIE and crepes provide general classification conformal workflows. The comparison below
+uses one fixed ordinal task. It is not a claim of general superiority. All methods use the
+same 6,000-row synthetic dataset, 50/25/25 training-calibration-test split, 1,500-record
+test set, histogram gradient boosting base model, and random seed `20260704`. The nominal
+coverage is 0.90. The recorded environment uses MAPIE 1.5.0, crepes 0.9.1,
+scikit-learn 1.9.1, and NumPy 2.5.1.
 
-| method | coverage | avg set size | contiguous sets | true-label guarantee | fatal-omission guarantee |
-|--------|:--------:|:------------:|:---------------:|:--------------------:|:------------------------:|
-| CHOIR  | 0.895    | 2.19         | yes (by construction) | yes            | yes                      |
-| MAPIE  | 0.899    | 2.22         | 99%             | no                   | no                       |
-| crepes | 0.899    | 2.22         | 99%             | no                   | no                       |
+| method | observed-label coverage | mean set size | empirically contiguous | declared-map transfer in this workflow | fatal-omission control in this workflow |
+|--------|:-----------------------:|:-------------:|:----------------------:|:--------------------------------------:|:---------------------------------------:|
+| CHOIR  | 0.8953 | 2.1920 | 100% by construction | included under the compatibility map | included under the fatality premise |
+| MAPIE  | 0.8993 | 2.2187 | 99.07% | not included | not included |
+| crepes | 0.8993 | 2.2187 | 99.07% | not included | not included |
 
-The coverage values are empirical results from this demo. CHOIR's sets are contiguous
-intervals on the KABCO scale. Its true-label and fatal-omission statements apply only
-when the corresponding compatibility and exact-fatality recording assumptions are
-declared and plausible; the deployment-shift output is a diagnostic unless its stronger
-covariate-shift conditions are established.
+The coverage, size, and contiguity columns are empirical results from the demonstration.
+The last two columns describe the branches included in this benchmark workflow. They do
+not imply that another library cannot be extended with additional user code. CHOIR's
+declared-map transfer and fatal-omission control apply only when the corresponding
+compatibility and exact-fatality recording assumptions are declared and plausible. The
+deployment-shift output is a diagnostic unless its stronger covariate-shift conditions
+are established.
+
+Reproduce the comparison with
+`uv run --extra benchmarks python benchmarks/vs_mapie_crepes.py`. The
+[benchmark script](benchmarks/vs_mapie_crepes.py) and
+[raw results](benchmarks/results/generic_tool_benchmark.csv) are stored in the repository.
 
 ## What is guaranteed
 
