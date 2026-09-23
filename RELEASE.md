@@ -22,9 +22,13 @@ artifacts` entry so both sdist and wheel carry the demo table.
 
 Release services:
 
-1. **GitHub.** Source and release artifacts are published in `pozapas/choircert`. CI in
-   `.github/workflows/ci.yml` runs tests on Python 3.10--3.12, lint, and a wheel build.
-2. **PyPI.** The distribution name is `choircert`, while the import remains `choir`.
-3. **Zenodo.** `CITATION.cff` retains the concept DOI so that it resolves to the latest
-   archived version when the GitHub-Zenodo integration completes the deposit.
+1. **GitHub.** Source and release artifacts are published at
+   `https://github.com/pozapas/choircert/releases/tag/v0.2.0`. CI passed on Python
+   3.10, 3.11, and 3.12.
+2. **PyPI.** Version 0.2.0 is published at
+   `https://pypi.org/project/choircert/0.2.0/`. The distribution name is
+   `choircert`, while the import remains `choir`.
+3. **Zenodo.** The archived release DOI is `10.5281/zenodo.22919393`.
+   `CITATION.cff` retains concept DOI `10.5281/zenodo.21434172` as the
+   latest-version pointer.
 4. **Docs.** `mkdocs gh-deploy` publishes the site from `mkdocs.yml` and `docs/`.
