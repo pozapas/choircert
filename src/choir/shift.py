@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import numpy as np
 
-
 # ---------------------------------------------------------------------------
 # Theorem 4a: hierarchical rollup
 # ---------------------------------------------------------------------------
@@ -106,7 +105,7 @@ def apply_rollup(strata: np.ndarray, roll: dict, hierarchy: list[dict]) -> np.nd
             return roll[leaf]
         lab = leaf
         for j in range(1, n_levels):
-            lab = hierarchy[j - 1][lab] if lab in hierarchy[j - 1] else lab
+            lab = hierarchy[j - 1].get(lab, lab)
             if (j, lab) in known_cells:
                 return (j, lab)
         return (n_levels - 1, lab)

@@ -3,14 +3,20 @@ composition API (Thm 6): additive slack budget on product cells."""
 
 import numpy as np
 
-from choir.core.scores import cumulative_score
-from choir.core.intervals import interval_sets
-from choir.shift import (
-    rollup_map, apply_rollup, DensityRatioEstimator, tilted_resample, tv_slack_lcb,
-    weighted_thresholds, DriftMonitor, conformal_pvalue,
-)
-from choir.noise import NoiseModel
 from choir.compose import CertifiedOrdinal
+from choir.core.intervals import interval_sets
+from choir.core.scores import cumulative_score
+from choir.noise import NoiseModel
+from choir.shift import (
+    DensityRatioEstimator,
+    DriftMonitor,
+    apply_rollup,
+    conformal_pvalue,
+    rollup_map,
+    tilted_resample,
+    tv_slack_lcb,
+    weighted_thresholds,
+)
 
 K = 5
 

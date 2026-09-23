@@ -9,9 +9,9 @@ coverage bounds may be exceeded freely).
 import numpy as np
 import pytest
 
+from choir.core.calibrate import mondrian_calibrate, split_calibrate, weighted_quantile
+from choir.core.intervals import expand_intervals, interval_sets, raw_interval_sets
 from choir.core.scores import cumulative_score
-from choir.core.intervals import raw_interval_sets, interval_sets, expand_intervals
-from choir.core.calibrate import split_calibrate, mondrian_calibrate, weighted_quantile
 from choir.risk import crc_threshold, inflated_costs
 
 K = 5

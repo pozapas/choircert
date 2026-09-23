@@ -2,8 +2,8 @@
 
 import numpy as np
 
-from choir.datasets import load_demo, DEMO_COLUMNS
 from choir import CertifiedOrdinal, NoiseModel
+from choir.datasets import DEMO_COLUMNS, load_demo
 
 
 def test_demo_loads():

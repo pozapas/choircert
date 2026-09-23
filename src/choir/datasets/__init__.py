@@ -6,6 +6,6 @@ and tutorials runnable anywhere. Swap in a real FARS extract by replacing demo_f
 with the same columns.
 """
 
-from choir.datasets.loader import load_demo, DEMO_COLUMNS
+from choir.datasets.loader import DEMO_COLUMNS, load_demo
 
-__all__ = ["load_demo", "DEMO_COLUMNS"]
+__all__ = ["DEMO_COLUMNS", "load_demo"]

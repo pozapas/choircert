@@ -12,9 +12,9 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from choir.core.scores import cdf_from_proba, cumulative_score
-from choir.core.intervals import interval_sets
 from choir.core.calibrate import conformal_quantile
+from choir.core.intervals import interval_sets
+from choir.core.scores import cdf_from_proba, cumulative_score
 from choir.noise import NoiseModel
 from choir.partitions import Partition
 from choir.risk import crc_threshold, inflated_costs
@@ -226,7 +226,7 @@ class CertifiedOrdinal:
             _, final_n, level, final_cell = self._threshold_for(key, cls_key, alpha)
             rows.append({
                 "leaf_cell": str(key), "class_cell": str(cls_key),
-                "leaf_n_cal": int(len(idx)), "final_cell": final_cell,
+                "leaf_n_cal": len(idx), "final_cell": final_cell,
                 "rollup_level": level, "final_n_cal": int(final_n),
             })
         return rows
