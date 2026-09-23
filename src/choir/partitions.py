@@ -1,8 +1,9 @@
 """Partition sources for heterogeneity-conditional calibration (methods.tex Thm 2).
 
 A partition is any function X -> labels fit WITHOUT calibration labels (split
-discipline). Theorem 2 gives per-cell validity for arbitrary partitions; partition
-quality affects efficiency only (Thm 2b). Sources supported:
+discipline). Under exchangeability within the resulting observed final cells, Theorem 2
+gives per-cell validity for arbitrary partitions; partition quality affects efficiency
+only (Thm 2b). Sources supported:
 
 - a callable (e.g. the MAP class of a latent-class model fit on the training split);
 - a column of the feature matrix (declared covariate bins);

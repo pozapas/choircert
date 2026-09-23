@@ -2,7 +2,8 @@
 
 A certification layer for ordinal, safety-critical prediction. Wrap any model that
 exports an ordinal conditional CDF and obtain finite-sample, distribution-free
-guarantees on contiguous prediction sets.
+certificates on contiguous prediction sets under declared sampling and reporting
+assumptions.
 
 Install with `pip install choircert` (import name `choir`). See the
 [quickstart in the README](https://github.com/pozapas/choircert) and the

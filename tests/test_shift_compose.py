@@ -36,18 +36,76 @@ def model_cdf(x, rng):
 # ---------- rollup (Thm 4a packaging) ----------
 
 def test_rollup_respects_floor_and_hierarchy():
-    counties = np.array(["c1"] * 50 + ["c2"] * 2000 + ["c3"] * 30 + ["c4"] * 900)
+    counties = np.array(["c1"] * 50 + ["c2"] * 2000 + ["c3"] * 30 + ["c4"] * 1100)
     hierarchy = [
         {"c1": "cbsaA", "c2": "cbsaA", "c3": "cbsaB", "c4": "cbsaB"},
         {"cbsaA": "state", "cbsaB": "state"},
     ]
     roll = rollup_map(counties, hierarchy, n_min=1000)
-    assert roll["c2"] == (0, "c2")            # big county stays a leaf
-    assert roll["c1"] == (1, "cbsaA")         # small county rolls to CBSA (50+2000)
-    assert roll["c3"] == (2, "state")         # cbsaB has 930 < 1000 -> state
-    assert roll["c4"] == (2, "state")
+    # A parent and its child cannot both be final cells. When one county needs its
+    # parent, every sibling county moves to that parent and calibration uses the
+    # same disjoint event.
+    assert roll["c1"] == (1, "cbsaA")
+    assert roll["c2"] == (1, "cbsaA")
+    assert roll["c3"] == (1, "cbsaB")
+    assert roll["c4"] == (1, "cbsaB")
     cells = apply_rollup(np.array(["c1", "c3", "c2"]), roll, hierarchy)
-    assert list(cells) == [(1, "cbsaA"), (2, "state"), (0, "c2")]
+    assert list(cells) == [(1, "cbsaA"), (1, "cbsaB"), (1, "cbsaA")]
+
+
+def test_certified_ordinal_uses_one_disjoint_final_partition():
+    class Base:
+        def predict_proba(self, X):
+            n = len(X)
+            return np.tile(np.array([0.55, 0.20, 0.12, 0.08, 0.05]), (n, 1))
+
+    model = CertifiedOrdinal(
+        base=Base(), K=K, partition=lambda X: np.zeros(len(X), dtype=int), n_min=3,
+    )
+    X_train = np.arange(4, dtype=float).reshape(-1, 1)
+    g_train = np.array(["sparse", "dense", "dense", "dense"])
+    model.freeze_rollup(X_train, strata=g_train)
+    X_cal = np.arange(4, dtype=float).reshape(-1, 1)
+    y_cal = np.array([1, 2, 3, 4])
+    g_cal = np.array(["sparse", "dense", "dense", "dense"])
+    model.calibrate(X_cal, y_cal, strata=g_cal)
+
+    audit = model.resolved_cells(
+        np.array([[10.0], [11.0]]), strata=np.array(["sparse", "dense"]),
+    )
+    assert list(audit["final_cell"]) == ["class:0", "class:0"]
+    assert list(audit["final_n_cal"]) == [4, 4]
+    assert {row["final_cell"] for row in model.partition_audit()} == {"class:0"}
+    certs = model.certificate(alpha=0.1)
+    assert len(certs) == 1
+    assert certs[0].cell == "class:0" and certs[0].n_cal == 4
+
+
+def test_calibration_counts_cannot_change_frozen_leaf_map():
+    class Base:
+        def predict_proba(self, X):
+            n = len(X)
+            return np.tile(np.array([0.55, 0.20, 0.12, 0.08, 0.05]), (n, 1))
+
+    model = CertifiedOrdinal(
+        base=Base(), K=K, partition=lambda X: np.zeros(len(X), dtype=int), n_min=2,
+    )
+    X_train = np.arange(4, dtype=float).reshape(-1, 1)
+    model.freeze_rollup(X_train, strata=np.array(["left", "left", "right", "right"]))
+
+    # The left calibration leaf is below n_min. A calibration-count rollup would
+    # change its event or mix a class parent with the right leaf. The frozen map
+    # must retain both training-supported leaves.
+    X_cal = np.arange(6, dtype=float).reshape(-1, 1)
+    y_cal = np.array([1, 1, 2, 3, 4, 5])
+    model.calibrate(
+        X_cal, y_cal, strata=np.array(["left", "right", "right", "right", "right", "right"]),
+    )
+    audit = {row["leaf_cell"]: row for row in model.partition_audit()}
+    assert audit["0|left"]["final_cell"] == "cell:0|left"
+    assert audit["0|left"]["final_n_cal"] == 1
+    assert audit["0|right"]["final_cell"] == "cell:0|right"
+    assert audit["0|right"]["final_n_cal"] == 5
 
 
 # ---------- Thm 4b: density ratio recovers coverage; TV LCB is valid ----------
@@ -55,7 +113,6 @@ def test_rollup_respects_floor_and_hierarchy():
 def test_density_ratio_weighted_coverage():
     alpha = 0.1
     rng = np.random.default_rng(1)
-    x_tr = rng.normal(0, 1, 4000)     # training-split covariates (fit w-hat)
     x_cal, y_cal = make_world(rng, 6000)
     x_new = rng.normal(1.0, 1.0, 4000)  # unlabeled target covariates
     x_te, _ = make_world(rng, 30000)
@@ -64,7 +121,9 @@ def test_density_ratio_weighted_coverage():
     u = x_te[:, None] + rng.logistic(0, 1, (len(x_te), 1))
     y_te = (1 + (u > cuts).sum(axis=1)).astype(int)  # same conditional (covariate shift)
 
-    dre = DensityRatioEstimator().fit(x_tr.reshape(-1, 1), x_new.reshape(-1, 1))
+    # The weighted quantile uses calibration scores, so w estimates the
+    # target-to-calibration ratio, not a target-to-training ratio.
+    dre = DensityRatioEstimator().fit(x_cal.reshape(-1, 1), x_new.reshape(-1, 1))
     w_cal = dre.weights(x_cal.reshape(-1, 1))
     w_te = dre.weights(x_te.reshape(-1, 1))
 
@@ -136,6 +195,7 @@ def test_composition_product_cells_with_noise():
         yt[far] = y[far] + 2                                # beyond-band (paid by delta)
         return yt
 
+    x_roll, c_roll, g_roll, _ = draw(30000)
     x_cal, c_cal, g_cal, y_cal = draw(30000)
     x_te, c_te, g_te, y_te = draw(60000)
     yt_cal = noisy(y_cal)
@@ -151,14 +211,16 @@ def test_composition_product_cells_with_noise():
             proba = np.diff(np.concatenate([np.zeros((len(x), 1)), cdf], axis=1), axis=1)
             return proba
 
-    cls_cal, cls_te = c_cal.copy(), c_te.copy()
+    cls_roll, cls_cal, cls_te = c_roll.copy(), c_cal.copy(), c_te.copy()
     cert = CertifiedOrdinal(
         base=Base(), K=K,
         partition=lambda X: cls_current[0],
         noise=NoiseModel(K=K, b_plus=1, b_minus=0, delta=delta),
         n_min=500,
     )
-    cls_current = [cls_cal]
+    cls_current = [cls_roll]
+    cert.freeze_rollup(x_roll, strata=g_roll)
+    cls_current[0] = cls_cal
     cert.calibrate(x_cal, yt_cal, strata=g_cal)
     cls_current[0] = cls_te
     lo, hi = cert.predict_set(x_te, alpha=alpha, strata=g_te)
@@ -175,3 +237,22 @@ def test_composition_product_cells_with_noise():
     certs = cert.certificate(alpha=alpha)
     assert all(abs(ct.floor - floor) < 1e-12 for ct in certs)
     assert len(certs) == 4
+
+    # A sparse product leaf is certified on its final rolled-up cell, never on the
+    # original leaf. The audit must make this conditioning event visible.
+    sparse_cert = CertifiedOrdinal(
+        base=Base(), K=K,
+        partition=lambda X: cls_current[0],
+        noise=NoiseModel(K=K, b_plus=1, b_minus=0, delta=delta),
+        n_min=100_000,
+    )
+    cls_current[0] = cls_roll
+    sparse_cert.freeze_rollup(x_roll, strata=g_roll)
+    cls_current[0] = cls_cal
+    sparse_cert.calibrate(x_cal, yt_cal, strata=g_cal)
+    cls_current[0] = cls_te
+    audit = sparse_cert.partition_audit(alpha=alpha)
+    assert {row["rollup_level"] for row in audit} == {"global"}
+    assert {row["final_cell"] for row in audit} == {"global:ALL"}
+    resolution = sparse_cert.resolved_cells(x_te[:10], alpha=alpha, strata=g_te[:10])
+    assert set(resolution["final_cell"]) == {"global:ALL"}

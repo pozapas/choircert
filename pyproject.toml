@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "choircert"
-version = "0.1.0"
-description = "A certification layer for ordinal, safety-critical prediction: distribution-free validity, label-noise robustness, deployment-shift certificates, and severity-weighted risk control."
+version = "0.2.0"
+description = "A certification layer for ordinal safety prediction with conditional validity, reporting-sensitivity analysis, shift diagnostics, and severity-weighted risk control."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

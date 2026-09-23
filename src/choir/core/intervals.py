@@ -1,8 +1,9 @@
-"""Interval prediction sets (methods.tex Definition 2, Lemma 1, Convention 1).
+"""Raw and deployed interval prediction sets.
 
-C_lambda(x) = {k : s(x,k) <= lambda} is a contiguous interval by Lemma 1; if empty,
-Convention 1 returns the singleton argmin_k s(x,k) (this only enlarges sets, so every
-lower coverage bound is preserved).
+The mathematical set C_lambda(x) = {k : s(x,k) <= lambda} can be empty. The deployed
+Convention 1 set replaces an empty raw set by the singleton argmin_k s(x,k). The two
+classes remain explicit because the fallback preserves lower coverage bounds but can
+invalidate coverage upper bounds and raw-set efficiency equalities.
 """
 
 from __future__ import annotations
@@ -12,34 +13,46 @@ import numpy as np
 from choir.core.scores import score_matrix
 
 
-def interval_sets(cdf: np.ndarray, lam: np.ndarray | float) -> tuple[np.ndarray, np.ndarray]:
-    """Return (lo, hi) 1-indexed inclusive interval endpoints per row.
+def raw_interval_sets(
+    cdf: np.ndarray, lam: np.ndarray | float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return endpoints for the raw mathematical threshold set.
 
-    lam may be a scalar or an (n,) vector of per-row thresholds (Mondrian use).
-    Never returns an empty set (Convention 1).
+    An empty set has the endpoint sentinel (lo, hi) = (1, 0). Thus, the usual
+    membership test ``(y >= lo) & (y <= hi)`` is false for every label.
     """
-    sm = score_matrix(cdf)  # (n, K)
+    sm = score_matrix(cdf)
     lam = np.broadcast_to(np.asarray(lam, dtype=float), (sm.shape[0],))
-    member = sm <= lam[:, None]  # (n, K)
+    member = sm <= lam[:, None]
 
     K = sm.shape[1]
     idx = np.arange(1, K + 1)
-    lo = np.where(member.any(axis=1), np.where(member, idx, K + 1).min(axis=1), 0)
-    hi = np.where(member.any(axis=1), np.where(member, idx, 0).max(axis=1), 0)
+    nonempty = member.any(axis=1)
+    lo = np.where(nonempty, np.where(member, idx, K + 1).min(axis=1), 1)
+    hi = np.where(nonempty, np.where(member, idx, 0).max(axis=1), 0)
 
-    empty = lo == 0
+    width = hi - lo + 1
+    if not np.array_equal(member.sum(axis=1)[nonempty], width[nonempty]):
+        raise AssertionError("non-contiguous set: cdf violates monotonicity")
+    return lo, hi
+
+
+def interval_sets(cdf: np.ndarray, lam: np.ndarray | float) -> tuple[np.ndarray, np.ndarray]:
+    """Return deployed non-empty interval endpoints per row.
+
+    lam may be a scalar or an (n,) vector of per-row thresholds (Mondrian use).
+    This function applies the Convention 1 argmin fallback. Use raw_interval_sets
+    for theorem checks that require the raw threshold family.
+    """
+    lo, hi = raw_interval_sets(cdf, lam)
+    empty = lo > hi
     if empty.any():  # Convention 1
+        sm = score_matrix(cdf)
         arg = sm[empty].argmin(axis=1) + 1
         lo = lo.copy()
         hi = hi.copy()
         lo[empty] = arg
         hi[empty] = arg
-
-    # Lemma 1 invariant: membership must be contiguous between lo and hi.
-    # (Cheap runtime check; guards against a non-monotone cdf slipping through.)
-    width = hi - lo + 1
-    if not np.array_equal(member.sum(axis=1)[~empty], width[~empty]):
-        raise AssertionError("non-contiguous set: cdf violates monotonicity")
     return lo, hi
 
 

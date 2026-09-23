@@ -5,8 +5,10 @@ sample-size floor (Thm 4a). New strata: density-ratio weighted calibration with 
 three-number certificate (nominal level, TV-slack lower confidence bound, parametric
 slack estimate) of Thm 4b. Concept drift is monitored, never corrected (DriftMonitor).
 
-Split discipline: the density-ratio model is fit on training-split covariates plus
-unlabeled target covariates only — never on calibration rows used for the quantile.
+Split discipline: the density-ratio model is fit on calibration covariates plus
+unlabeled target covariates. The ratio is target-to-calibration because it weights
+calibration scores. Target rows used to fit the ratio must be disjoint from target
+rows used for prediction and evaluation.
 """
 
 from __future__ import annotations
@@ -25,14 +27,16 @@ def rollup_map(
 ) -> dict:
     """Map each leaf stratum to the coarsest-needed calibration cell.
 
-    strata: calibration leaf-stratum labels (covariate information only — the rule
-    must never see calibration scores/labels; methods.tex verification memo §2).
+    strata: training-split leaf-stratum labels. The returned map must be frozen before
+    calibration and must never use calibration counts, scores, or labels.
     hierarchy: list of dicts, hierarchy[j][leaf] = parent label at level j+1
     (level 0 = leaf itself). The last level must map everything to one root.
     n_min: per-cell floor (paper default ceil(2/alpha)*50).
 
-    Returns {leaf: cell_label} where cell_label is the first level (finest) at which
-    the cell containing the leaf has >= n_min calibration rows.
+    Returns {leaf: cell_label} for one disjoint tree cut. Every returned cell has at
+    least n_min training-reference rows unless the root itself is smaller. If one child
+    must use a parent, all descendants of that parent use it. Leaf and parent cells
+    therefore never overlap.
     """
     strata = np.asarray(strata)
     leaves, counts = np.unique(strata, return_counts=True)
@@ -55,13 +59,38 @@ def rollup_map(
             cnt[lab] = cnt.get(lab, 0) + c
         level_counts.append(cnt)
 
+    children: dict[tuple[int, object], list[tuple[int, object]]] = {}
+    for j in range(1, n_levels):
+        for leaf in leaf_count:
+            parent = (j, level_label(leaf, j))
+            child = (j - 1, level_label(leaf, j - 1))
+            children.setdefault(parent, [])
+            if child not in children[parent]:
+                children[parent].append(child)
+
+    def cut(node):
+        level, label = node
+        if level == 0:
+            return {node} if level_counts[0][label] >= n_min else None
+        child_cuts = [cut(child) for child in children.get(node, [])]
+        if child_cuts and all(result is not None for result in child_cuts):
+            return set().union(*child_cuts)
+        if level_counts[level][label] >= n_min or level == n_levels - 1:
+            return {node}
+        return None
+
+    roots = {(n_levels - 1, level_label(leaf, n_levels - 1)) for leaf in leaf_count}
+    selected = set()
+    for root in roots:
+        selected.update(cut(root) or {root})
+
     out = {}
     for leaf in leaf_count:
-        for j in range(n_levels):
-            lab = level_label(leaf, j)
-            if level_counts[j][lab] >= n_min or j == n_levels - 1:
-                out[leaf] = (j, lab)
-                break
+        path = [(j, level_label(leaf, j)) for j in range(n_levels)]
+        matches = [node for node in path if node in selected]
+        if len(matches) != 1:
+            raise AssertionError("rollup cells do not form a disjoint partition")
+        out[leaf] = matches[0]
     return out
 
 
@@ -130,7 +159,9 @@ class DensityRatioEstimator:
 
     Fit on source covariates (label 0) vs unlabeled target covariates (label 1);
     w_hat(x) = p(x)/(1-p(x)) * n0/n1. `clf` is any object with fit/predict_proba;
-    defaults to the numpy IRLS logistic (realizability case of Thm 4b(iii)).
+    defaults to the numpy IRLS logistic (realizability case of Thm 4b(iii)). When
+    the weights enter `weighted_thresholds`, X_source must be the calibration
+    covariates, not an earlier training split.
     """
 
     def __init__(self, clf=None, clip: float = 1e3):

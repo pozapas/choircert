@@ -58,7 +58,7 @@ class NoiseModel:
         return expand_intervals(lo, hi, self.b_plus, self.b_minus, self.K)
 
     def coverage_floor(self, alpha: float) -> float:
-        """Theorem 3: guaranteed true-label coverage after expansion."""
+        """Conditional Theorem 3 floor for true-label coverage after expansion."""
         return 1.0 - alpha - self.delta
 
     def guarantee_curve(self, alpha: float, deltas=None) -> list[tuple[float, float]]:

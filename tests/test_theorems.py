@@ -10,7 +10,7 @@ import numpy as np
 import pytest
 
 from choir.core.scores import cumulative_score
-from choir.core.intervals import interval_sets, expand_intervals
+from choir.core.intervals import raw_interval_sets, interval_sets, expand_intervals
 from choir.core.calibrate import split_calibrate, mondrian_calibrate, weighted_quantile
 from choir.risk import crc_threshold, inflated_costs
 
@@ -47,6 +47,18 @@ def coverage_tol(alpha, n):
 
 
 # ---------- Proposition 1 + Lemma 1 (E1 regime) ----------
+
+
+def test_raw_empty_set_is_distinct_from_deployed_fallback():
+    cdf = np.array([[0.45, 0.55, 1.0]])
+    raw_lo, raw_hi = raw_interval_sets(cdf, lam=0.1)
+    dep_lo, dep_hi = interval_sets(cdf, lam=0.1)
+
+    assert (raw_lo[0], raw_hi[0]) == (1, 0)
+    assert (dep_lo[0], dep_hi[0]) == (2, 2)
+    y = 2
+    assert not (raw_lo[0] <= y <= raw_hi[0])
+    assert dep_lo[0] <= y <= dep_hi[0]
 
 @pytest.mark.parametrize("alpha", [0.05, 0.1, 0.2])
 def test_marginal_coverage_and_contiguity(alpha):

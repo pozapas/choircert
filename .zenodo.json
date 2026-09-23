@@ -1,6 +1,6 @@
 {
   "title": "CHOIR: a certification layer for ordinal, safety-critical prediction",
-  "description": "Model-agnostic distribution-free certification for ordinal severity models: contiguous prediction sets with heterogeneity-conditional coverage, true-label guarantees under banded reporting noise, spatiotemporal transfer certificates, and severity-weighted risk control, all composable.",
+  "description": "Model-agnostic distribution-free certification for ordinal safety models with contiguous prediction sets, observed-cell coverage under exchangeability, reporting-sensitivity analysis under a declared compatibility map, shift diagnostics, and severity-weighted risk control.",
   "license": "MIT",
   "upload_type": "software",
   "keywords": ["conformal prediction", "ordinal classification", "distribution-free inference",

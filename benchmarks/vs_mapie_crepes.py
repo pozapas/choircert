@@ -1,4 +1,4 @@
-"""Honest benchmark: CHOIR vs MAPIE and crepes on the same ordinal task.
+"""Benchmark CHOIR, MAPIE, and crepes on the same ordinal task.
 
 All three are valid conformal methods and all attain marginal coverage; the point is
 NOT that CHOIR covers better marginally (it does not, and should not, the guarantee is
@@ -9,11 +9,17 @@ used in the README, computed on the bundled demo data.
 """
 from __future__ import annotations
 
+import csv
+from pathlib import Path
+
 import numpy as np
 
 from choir.datasets import load_demo
 from choir import (cumulative_score, interval_sets, split_calibrate, cdf_from_proba,
                    NoiseModel)
+
+
+OUT = Path(__file__).resolve().parent / "results" / "generic_tool_benchmark.csv"
 
 
 def encode(rows, cols):
@@ -104,6 +110,7 @@ def main():
         results["crepes"] = {"error": f"{type(e).__name__}: {e}"}
 
     _print_table(results, alpha)
+    _write_results(results, alpha)
     return results
 
 
@@ -135,6 +142,40 @@ def _print_table(results, alpha):
               f"{'yes' if r['fatal_omission_guarantee'] else 'no':>10}")
     print("\nAll methods attain marginal coverage; only CHOIR guarantees contiguous")
     print("ordinal sets, true-label transfer under banded noise, and fatal-omission control.")
+
+
+def _write_results(results, alpha):
+    """Write the aggregate benchmark values used in the manuscript table."""
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    fields = [
+        "method",
+        "alpha",
+        "coverage",
+        "avg_size",
+        "contiguity_fraction",
+        "contiguous_by_construction",
+        "true_label_guarantee",
+        "fatal_omission_guarantee",
+        "error",
+    ]
+    with OUT.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        for name, result in results.items():
+            writer.writerow({
+                "method": name,
+                "alpha": alpha,
+                "coverage": result.get("coverage", ""),
+                "avg_size": result.get("avg_size", ""),
+                "contiguity_fraction": result.get(
+                    "contig_frac", 1.0 if result.get("contiguous") else ""
+                ),
+                "contiguous_by_construction": name == "CHOIR",
+                "true_label_guarantee": result.get("true_label_guarantee", ""),
+                "fatal_omission_guarantee": result.get("fatal_omission_guarantee", ""),
+                "error": result.get("error", ""),
+            })
+    print(f"\nAggregate benchmark results -> {OUT}")
 
 
 if __name__ == "__main__":

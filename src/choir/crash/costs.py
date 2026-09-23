@@ -17,5 +17,5 @@ def usdot_relative() -> np.ndarray:
 
 
 def fatal_omission() -> np.ndarray:
-    """Indicator cost for the fatal-omission guarantee (Corollary 5c)."""
+    """Indicator cost for the conditional fatal-omission bound (Corollary 5c)."""
     return np.array([0.0, 0.0, 0.0, 0.0, 1.0])

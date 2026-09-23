@@ -14,7 +14,7 @@ authors:
 license: MIT
 repository-code: "https://github.com/pozapas/choircert"
 doi: "10.5281/zenodo.21434172"
-version: 0.1.0
+version: 0.2.0
 identifiers:
   - type: doi
     value: "10.5281/zenodo.21434172"
@@ -27,12 +27,12 @@ keywords:
   - trustworthy AI
 preferred-citation:
   type: article
-  title: "Certified crash-severity prediction from ordinal structure"
+  title: "Distribution-free certification of ordinal crash-injury predictions under reporting uncertainty with Texas CRIS validation"
   authors:
     - family-names: Rafe
       given-names: Amir
     - family-names: Das
       given-names: Subasish
-  journal: "Transportation Research Part B: Methodological"
+  journal: "Analytic Methods in Accident Research"
   year: 2026
-  notes: "Under review; special issue on Mathematical Foundations for Trustworthy AI in Transportation."
+  notes: "Prepared for submission."

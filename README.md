@@ -7,11 +7,12 @@
 **A certification layer for ordinal, safety-critical prediction.** Distribution name
 on PyPI: `choircert`; import name: `choir`.
 
-Wrap any ordinal severity model and obtain finite-sample, distribution-free guarantees:
-contiguous ordinal prediction sets with marginal and group-conditional coverage
-(heterogeneity classes, jurisdiction-year strata), coverage on the *true* label under a
-declared banded reporting-noise assumption, deployment-shift transfer certificates, and
-severity-weighted risk control including a fatal-omission guarantee, all composable with
+Wrap any ordinal severity model and obtain finite-sample, distribution-free certificates:
+contiguous ordinal prediction sets with marginal and observed-cell coverage
+(training-frozen heterogeneity and jurisdiction-year strata), coverage on the *true*
+label under a declared banded reporting-noise assumption, deployment-shift diagnostics,
+and severity-weighted risk control including a fatal-omission bound. These statements are
+conditional on the assumptions declared for the selected branch and are composable with
 an explicit slack budget.
 
 Every guarantee is a statement about prediction-set coverage or expected risk under a
@@ -52,17 +53,19 @@ from choir.datasets import load_demo
 rows, y, cols = load_demo()   # FARS-schema synthetic sample, no PII, no download
 ```
 
-`python examples/demo.py` runs in seconds. `pytest tests/` reproduces every guarantee
-on simulated data: marginal validity, class-conditional coverage, banded-noise transfer,
-group-weighted shift, weighted transfer, cost risk control, and composition.
+`python examples/demo.py` runs in seconds. `pytest tests/` exercises the certificate
+implementations on simulated data: marginal validity, observed-cell coverage,
+banded-noise expansion, weighted-shift calculations, cost risk control, and composition.
+These tests are software checks; they do not validate the assumptions for a new dataset.
 
 ## How it compares
 
 Generic conformal toolkits (MAPIE, crepes, puncc) provide split and Mondrian machinery.
-They are correct and attain marginal coverage. What they do not provide for an ordinal,
-safety-critical target is contiguity, a guarantee on the true (noisy) label, and a
-fatal-omission guarantee. The table below is produced by `benchmarks/vs_mapie_crepes.py`
-on the bundled demo at a nominal 0.90 level.
+They are correct and attain marginal coverage under their stated conditions. What they do
+not provide as a common interface for an ordinal, safety-critical target is contiguous
+sets, a declared reporting-noise expansion, and a severity-cost risk certificate. The
+table below is a bundled-demo benchmark at a nominal 0.90 level; it is empirical and is
+not a cross-dataset guarantee.
 
 | method | coverage | avg set size | contiguous sets | true-label guarantee | fatal-omission guarantee |
 |--------|:--------:|:------------:|:---------------:|:--------------------:|:------------------------:|
@@ -70,23 +73,23 @@ on the bundled demo at a nominal 0.90 level.
 | MAPIE  | 0.899    | 2.22         | 99%             | no                   | no                       |
 | crepes | 0.899    | 2.22         | 99%             | no                   | no                       |
 
-The coverage is deliberately the same; the guarantee is the same theorem. The difference
-is that CHOIR's sets are always contiguous intervals on the KABCO scale, and that CHOIR
-additionally transfers coverage to the true injury under a declared band and bounds the
-probability of excluding a true fatality. On this demo, the generic toolkits return a
-non-contiguous set about one percent of the time, which is not an operationally meaningful
-"B or worse" statement.
+The coverage values are empirical results from this demo. CHOIR's sets are contiguous
+intervals on the KABCO scale. Its true-label and fatal-omission statements apply only
+when the corresponding compatibility and exact-fatality recording assumptions are
+declared and plausible; the deployment-shift output is a diagnostic unless its stronger
+covariate-shift conditions are established.
 
 ## What is guaranteed
 
-The four guarantees and their proofs are in the companion paper (Transportation Research
-Part B, under review). Each is finite-sample and distribution-free in the wrapped model:
-class-conditional coverage (validity for any partition, oracle efficiency for a good one),
-true-label coverage `1 - alpha - delta` under a banded compatibility assumption,
-deployment transfer certificates reported as (nominal level, slack lower confidence bound,
-parametric slack estimate), and severity-cost risk control including the fatal-omission
-bound. The composition theorem combines them with an additive, assumption-attributable
-slack budget.
+The results and their proofs are in the companion paper prepared for submission to
+Analytic Methods in Accident Research. Each is finite-sample and distribution-free only under its stated
+conditions: coverage conditional on training-frozen observed final cells; true-label
+coverage `1 - alpha - delta` under a declared banded compatibility map; weighted-shift
+coverage under covariate shift with an independent, correctly specified ratio fit; and
+severity-cost risk control, including the fatal-omission bound, under the declared noise
+and exact-fatality premise. The shift discrepancy reported by CHOIR is not itself a
+coverage guarantee. The composition theorem combines only compatible branches with an
+additive, assumption-attributable slack budget.
 
 ## Citing
 

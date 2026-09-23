@@ -49,7 +49,7 @@ class CertifiedOrdinal:
     (n, K). The base model must be fit on the training split only.
     partition: None | Partition | anything Partition accepts (fit on training split).
     noise: NoiseModel or None.
-    n_min: per-cell floor; cells below it roll up (product cell -> class -> global).
+    n_min: training-reference count floor used by freeze_rollup.
     """
 
     def __init__(self, base, K: int = 5, partition=None, noise: NoiseModel | None = None,
@@ -61,6 +61,7 @@ class CertifiedOrdinal:
         self.noise = noise
         self.n_min = n_min
         self._cal: dict | None = None
+        self._rollup_spec: dict | None = None
 
     # -- base-model plumbing --
 
@@ -94,24 +95,141 @@ class CertifiedOrdinal:
         y_cal = np.asarray(y_cal)
         scores = cumulative_score(self._cdf(X_cal), y_cal)
         cell_keys, cls_keys = self._keys(X_cal, strata)
+        final_keys = self._apply_final_partition(cell_keys, cls_keys)
         self._cal = {
             "scores": scores, "y": y_cal,
-            "cell_keys": cell_keys, "class_keys": cls_keys,
+            "cell_keys": cell_keys, "class_keys": cls_keys, "final_keys": final_keys,
         }
         return self
 
-    def _threshold_for(self, key: str, cls_key: str, alpha: float) -> tuple[float, int, str]:
-        """Rollup: product cell -> class -> global, first level with n >= n_min."""
+    def freeze_rollup(self, X_train, strata=None):
+        """Freeze one disjoint rollup map from training-split covariates.
+
+        Call this method before calibrate. The map uses no calibration rows, scores, or
+        labels. If it is not called, calibrate keeps the declared leaf partition and does
+        not select a rollup from calibration counts.
+        """
+        cell_keys, cls_keys = self._keys(X_train, strata)
+        self._rollup_spec = self._fit_final_partition(cell_keys, cls_keys)
+        return self
+
+    def _fit_final_partition(self, cell_keys: np.ndarray, cls_keys: np.ndarray) -> dict:
+        """Fit a disjoint product-cell, class, or global partition.
+
+        If one product leaf in a class needs its class parent, every sibling leaf in that
+        class uses the same parent. If that parent is too small, every class uses the global
+        cell. These collapses prevent overlapping leaf and parent calibration events.
+        """
+        cell_keys = np.asarray(cell_keys).astype(str)
+        cls_keys = np.asarray(cls_keys).astype(str)
+        cell_counts = {key: int(np.sum(cell_keys == key)) for key in np.unique(cell_keys)}
+        class_counts = {key: int(np.sum(cls_keys == key)) for key in np.unique(cls_keys)}
+
+        if any(count < self.n_min for count in class_counts.values()):
+            return {"global": True, "class_modes": {}, "known_leaves": set(cell_counts)}
+
+        class_modes = {}
+        for cls_key in np.unique(cls_keys):
+            class_mask = cls_keys == cls_key
+            leaves = np.unique(cell_keys[class_mask])
+            collapse_class = any(cell_counts[leaf] < self.n_min for leaf in leaves)
+            class_modes[str(cls_key)] = "class" if collapse_class else "leaf"
+        return {
+            "global": False,
+            "class_modes": class_modes,
+            "known_leaves": set(cell_counts),
+        }
+
+    def _apply_final_partition(
+        self, cell_keys: np.ndarray, cls_keys: np.ndarray,
+    ) -> np.ndarray:
+        """Apply the pre-frozen map, or keep the declared leaf partition."""
+        cell_keys = np.asarray(cell_keys).astype(str)
+        cls_keys = np.asarray(cls_keys).astype(str)
+        spec = self._rollup_spec
+        if spec is None:
+            return np.array([f"cell:{key}" for key in cell_keys], dtype=object)
+        if spec["global"]:
+            return np.full(len(cell_keys), "global:ALL", dtype=object)
+
+        out = np.empty(len(cell_keys), dtype=object)
+        for i, (key, cls_key) in enumerate(zip(cell_keys, cls_keys)):
+            mode = spec["class_modes"].get(cls_key)
+            if mode == "class":
+                out[i] = f"class:{cls_key}"
+            elif mode == "leaf" and key in spec["known_leaves"]:
+                out[i] = f"cell:{key}"
+            else:
+                raise ValueError(
+                    f"leaf {key!r} was not in the frozen rollup map and needs "
+                    "new-stratum transfer"
+                )
+        return out
+
+    def _final_cell_for(self, key: str, cls_key: str) -> str:
+        """Resolve one requested leaf to its disjoint final partition cell."""
+        return str(self._apply_final_partition(np.array([key]), np.array([cls_key]))[0])
+
+    def _threshold_for(
+        self, key: str, cls_key: str, alpha: float,
+    ) -> tuple[float, int, str, str]:
+        """Resolve a product leaf to its final calibrated cell.
+
+        The returned cell identity is the conditioning event for the threshold. A
+        rolled-up leaf therefore never receives a leaf-cell certificate.
+        """
         cal = self._cal
-        for level, mask in (
-            ("cell", cal["cell_keys"] == key),
-            ("class", cal["class_keys"] == cls_key),
-            ("global", np.ones(len(cal["scores"]), bool)),
-        ):
-            n = int(mask.sum())
-            if n >= self.n_min or level == "global":
-                return conformal_quantile(cal["scores"][mask], alpha), n, level
-        raise AssertionError("unreachable")
+        final_cell = self._final_cell_for(key, cls_key)
+        mask = cal["final_keys"] == final_cell
+        n = int(mask.sum())
+        level = final_cell.split(":", 1)[0]
+        return conformal_quantile(cal["scores"][mask], alpha), n, level, final_cell
+
+    def resolved_cells(self, X, alpha: float = 0.1, strata=None) -> dict:
+        """Return leaf-to-final-cell assignments for a prediction batch.
+
+        Use this audit record when reporting conditional coverage. `leaf_cell` is
+        descriptive. `final_cell` is the actual calibration conditioning event.
+        """
+        if self._cal is None:
+            raise RuntimeError("call calibrate() first")
+        keys, cls_keys = self._keys(X, strata)
+        final = np.empty(len(keys), dtype=object)
+        levels = np.empty(len(keys), dtype=object)
+        n_cal = np.empty(len(keys), dtype=int)
+        for key in np.unique(keys):
+            idx = np.flatnonzero(keys == key)
+            _, n, level, final_cell = self._threshold_for(key, cls_keys[idx[0]], alpha)
+            final[idx] = final_cell
+            levels[idx] = level
+            n_cal[idx] = n
+        return {
+            "leaf_cell": keys.astype(str),
+            "class_cell": cls_keys.astype(str),
+            "final_cell": final.astype(str),
+            "rollup_level": levels.astype(str),
+            "final_n_cal": n_cal,
+        }
+
+    def partition_audit(self, alpha: float = 0.1) -> list[dict]:
+        """Emit leaf definitions, final rollups, and calibration counts.
+
+        This is an audit ledger, not a claim of leaf-cell validity after rollup.
+        """
+        if self._cal is None:
+            raise RuntimeError("call calibrate() first")
+        cal = self._cal
+        rows = []
+        for key in np.unique(cal["cell_keys"]):
+            idx = np.flatnonzero(cal["cell_keys"] == key)
+            cls_key = cal["class_keys"][idx[0]]
+            _, final_n, level, final_cell = self._threshold_for(key, cls_key, alpha)
+            rows.append({
+                "leaf_cell": str(key), "class_cell": str(cls_key),
+                "leaf_n_cal": int(len(idx)), "final_cell": final_cell,
+                "rollup_level": level, "final_n_cal": int(final_n),
+            })
+        return rows
 
     # -- prediction (calibrate -> expand) --
 
@@ -129,7 +247,7 @@ class CertifiedOrdinal:
         thr = np.empty(len(uniq))
         for j, key in enumerate(uniq):
             cls_key = cls_keys[np.argmax(inverse == j)]
-            thr[j], _, _ = self._threshold_for(key, cls_key, alpha)
+            thr[j], _, _, _ = self._threshold_for(key, cls_key, alpha)
         lam = thr[inverse]
         lo, hi = interval_sets(cdf, lam)
         if self.noise is not None:
@@ -140,7 +258,7 @@ class CertifiedOrdinal:
         """Severity-cost risk-controlled sets (Thm 5a/5b), cell-wise CRC thresholds.
 
         With a noise model set, CRC runs on band-inflated costs kappa_plus and the
-        output is expanded (Thm 5b guarantee: risk <= beta*kmax + delta*kmax).
+        output is expanded (Thm 5b conditional bound: risk <= beta*kmax + delta*kmax).
         """
         if self._cal is None:
             raise RuntimeError("call calibrate() first")
@@ -163,12 +281,10 @@ class CertifiedOrdinal:
         thr = np.empty(len(uniq))
         for j, key in enumerate(uniq):
             cls_key = cls_keys[np.argmax(inverse == j)]
-            for mask_level in (cal["cell_keys"] == key, cal["class_keys"] == cls_key,
-                               np.ones(len(cal["scores"]), bool)):
-                if mask_level.sum() >= self.n_min or mask_level.all():
-                    thr[j] = crc_threshold(cal["scores"][mask_level],
-                                           costs[mask_level], kmax, beta)
-                    break
+            final_cell = self._final_cell_for(key, cls_key)
+            final_mask = cal["final_keys"] == final_cell
+            thr[j] = crc_threshold(cal["scores"][final_mask],
+                                   costs[final_mask], kmax, beta)
         lam = thr[inverse]
         lo, hi = interval_sets(cdf, lam)
         if self.noise is not None:
@@ -187,10 +303,14 @@ class CertifiedOrdinal:
             raise RuntimeError("call calibrate() first")
         out = []
         delta = self.noise.delta if self.noise is not None else 0.0
-        for key in np.unique(self._cal["cell_keys"]):
-            n = int((self._cal["cell_keys"] == key).sum())
+        emitted = set()
+        for record in self.partition_audit(alpha):
+            if record["final_cell"] in emitted:
+                continue
+            emitted.add(record["final_cell"])
             slacks = {}
             if self.noise is not None:
                 slacks["noise"] = (delta, "N(T, delta) compatibility, declared")
-            out.append(Certificate(nominal=1 - alpha, slacks=slacks, cell=key, n_cal=n))
+            out.append(Certificate(nominal=1 - alpha, slacks=slacks,
+                                   cell=record["final_cell"], n_cal=record["final_n_cal"]))
         return out
