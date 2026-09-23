@@ -30,7 +30,7 @@ def rollup_map(
     calibration and must never use calibration counts, scores, or labels.
     hierarchy: list of dicts, hierarchy[j][leaf] = parent label at level j+1
     (level 0 = leaf itself). The last level must map everything to one root.
-    n_min: per-cell floor (paper default ceil(2/alpha)*50).
+    n_min: per-cell floor. A conservative default is ceil(2/alpha)*50.
 
     Returns {leaf: cell_label} for one disjoint tree cut. Every returned cell has at
     least n_min training-reference rows unless the root itself is smaller. If one child

@@ -1,0 +1,638 @@
+{
+  "alpha": 0.1,
+  "cell_rule": "declared covariate-only safety cells",
+  "compatibility_map": {
+    "1": [
+      0,
+      1
+    ],
+    "2": [
+      1,
+      1
+    ],
+    "3": [
+      1,
+      1
+    ],
+    "4": [
+      2,
+      1
+    ],
+    "5": [
+      1,
+      0
+    ]
+  },
+  "compatibility_map_version": "kabco-main-v1",
+  "deltas": {
+    "0.0": {
+      "calibration": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.0,
+            "n": 697765,
+            "n_beyond_realized": 0,
+            "n_eligible": 41609,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.0,
+            "n": 8386,
+            "n_beyond_realized": 0,
+            "n_eligible": 5605,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.0,
+            "n": 92187,
+            "n_beyond_realized": 0,
+            "n_eligible": 11000,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.0,
+            "n": 10256,
+            "n_beyond_realized": 0,
+            "n_eligible": 4726,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          }
+        },
+        "transition_counts": [
+          [
+            598656,
+            66811,
+            0,
+            0,
+            0
+          ],
+          [
+            16045,
+            56073,
+            8069,
+            0,
+            0
+          ],
+          [
+            0,
+            9747,
+            34583,
+            5076,
+            0
+          ],
+          [
+            0,
+            0,
+            2239,
+            7756,
+            1100
+          ],
+          [
+            0,
+            0,
+            0,
+            496,
+            1943
+          ]
+        ]
+      },
+      "test": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.0,
+            "n": 699412,
+            "n_beyond_realized": 0,
+            "n_eligible": 41893,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.0,
+            "n": 8530,
+            "n_beyond_realized": 0,
+            "n_eligible": 5707,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.0,
+            "n": 91805,
+            "n_beyond_realized": 0,
+            "n_eligible": 11056,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.0,
+            "n": 10335,
+            "n_beyond_realized": 0,
+            "n_eligible": 4849,
+            "population_upper_bound": 0.0,
+            "realized_beyond_mass": 0.0
+          }
+        },
+        "transition_counts": [
+          [
+            599637,
+            66814,
+            0,
+            0,
+            0
+          ],
+          [
+            16039,
+            56155,
+            7932,
+            0,
+            0
+          ],
+          [
+            0,
+            10008,
+            34817,
+            5039,
+            0
+          ],
+          [
+            0,
+            0,
+            2239,
+            7800,
+            1127
+          ],
+          [
+            0,
+            0,
+            0,
+            528,
+            1947
+          ]
+        ]
+      }
+    },
+    "0.01": {
+      "calibration": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.01,
+            "n": 697765,
+            "n_beyond_realized": 410,
+            "n_eligible": 41609,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.0005875903778492759
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.01,
+            "n": 8386,
+            "n_beyond_realized": 60,
+            "n_eligible": 5605,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.007154781779155735
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.01,
+            "n": 92187,
+            "n_beyond_realized": 119,
+            "n_eligible": 11000,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.0012908544588716413
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.01,
+            "n": 10256,
+            "n_beyond_realized": 51,
+            "n_eligible": 4726,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.004972698907956318
+          }
+        },
+        "transition_counts": [
+          [
+            598678,
+            66789,
+            0,
+            0,
+            0
+          ],
+          [
+            16017,
+            56186,
+            7984,
+            0,
+            0
+          ],
+          [
+            499,
+            9726,
+            34212,
+            4969,
+            0
+          ],
+          [
+            0,
+            115,
+            2163,
+            7749,
+            1068
+          ],
+          [
+            0,
+            0,
+            26,
+            507,
+            1906
+          ]
+        ]
+      },
+      "test": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.01,
+            "n": 699412,
+            "n_beyond_realized": 377,
+            "n_eligible": 41893,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.0005390242089069104
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.01,
+            "n": 8530,
+            "n_beyond_realized": 47,
+            "n_eligible": 5707,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.005509964830011723
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.01,
+            "n": 91805,
+            "n_beyond_realized": 120,
+            "n_eligible": 11056,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.0013071183486738195
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.01,
+            "n": 10335,
+            "n_beyond_realized": 46,
+            "n_eligible": 4849,
+            "population_upper_bound": 0.01,
+            "realized_beyond_mass": 0.004450895016932753
+          }
+        },
+        "transition_counts": [
+          [
+            599709,
+            66742,
+            0,
+            0,
+            0
+          ],
+          [
+            15985,
+            55977,
+            8164,
+            0,
+            0
+          ],
+          [
+            461,
+            9925,
+            34608,
+            4870,
+            0
+          ],
+          [
+            0,
+            106,
+            2150,
+            7821,
+            1089
+          ],
+          [
+            0,
+            0,
+            23,
+            483,
+            1969
+          ]
+        ]
+      }
+    },
+    "0.02": {
+      "calibration": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.02,
+            "n": 697765,
+            "n_beyond_realized": 793,
+            "n_eligible": 41609,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.0011364857795962825
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.02,
+            "n": 8386,
+            "n_beyond_realized": 103,
+            "n_eligible": 5605,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.012282375387550679
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.02,
+            "n": 92187,
+            "n_beyond_realized": 223,
+            "n_eligible": 11000,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.0024189961708266892
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.02,
+            "n": 10256,
+            "n_beyond_realized": 89,
+            "n_eligible": 4726,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.008677847113884555
+          }
+        },
+        "transition_counts": [
+          [
+            598438,
+            67029,
+            0,
+            0,
+            0
+          ],
+          [
+            16031,
+            56000,
+            8156,
+            0,
+            0
+          ],
+          [
+            956,
+            9646,
+            33939,
+            4865,
+            0
+          ],
+          [
+            0,
+            199,
+            2261,
+            7510,
+            1125
+          ],
+          [
+            0,
+            0,
+            53,
+            457,
+            1929
+          ]
+        ]
+      },
+      "test": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.02,
+            "n": 699412,
+            "n_beyond_realized": 818,
+            "n_eligible": 41893,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.0011695538538086278
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.02,
+            "n": 8530,
+            "n_beyond_realized": 117,
+            "n_eligible": 5707,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.013716295427901525
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.02,
+            "n": 91805,
+            "n_beyond_realized": 230,
+            "n_eligible": 11056,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.0025053101682914873
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.02,
+            "n": 10335,
+            "n_beyond_realized": 112,
+            "n_eligible": 4849,
+            "population_upper_bound": 0.02,
+            "realized_beyond_mass": 0.010836961780358007
+          }
+        },
+        "transition_counts": [
+          [
+            599972,
+            66479,
+            0,
+            0,
+            0
+          ],
+          [
+            16004,
+            56170,
+            7952,
+            0,
+            0
+          ],
+          [
+            993,
+            9725,
+            34217,
+            4929,
+            0
+          ],
+          [
+            0,
+            218,
+            2217,
+            7618,
+            1113
+          ],
+          [
+            0,
+            0,
+            66,
+            485,
+            1924
+          ]
+        ]
+      }
+    },
+    "0.05": {
+      "calibration": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.05,
+            "n": 697765,
+            "n_beyond_realized": 2118,
+            "n_eligible": 41609,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.0030354059031335763
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.05,
+            "n": 8386,
+            "n_beyond_realized": 305,
+            "n_eligible": 5605,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.03637014071070832
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.05,
+            "n": 92187,
+            "n_beyond_realized": 553,
+            "n_eligible": 11000,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.005998676602991745
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.05,
+            "n": 10256,
+            "n_beyond_realized": 226,
+            "n_eligible": 4726,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.02203588143525741
+          }
+        },
+        "transition_counts": [
+          [
+            598757,
+            66710,
+            0,
+            0,
+            0
+          ],
+          [
+            16054,
+            56199,
+            7934,
+            0,
+            0
+          ],
+          [
+            2523,
+            9148,
+            32988,
+            4747,
+            0
+          ],
+          [
+            0,
+            567,
+            2108,
+            7324,
+            1096
+          ],
+          [
+            0,
+            0,
+            112,
+            455,
+            1872
+          ]
+        ]
+      },
+      "test": {
+        "cell_injection": {
+          "baseline": {
+            "far_gate_probability": 0.05,
+            "n": 699412,
+            "n_beyond_realized": 2002,
+            "n_eligible": 41893,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.0028624044197125584
+          },
+          "motorcycle": {
+            "far_gate_probability": 0.05,
+            "n": 8530,
+            "n_beyond_realized": 255,
+            "n_eligible": 5707,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.029894490035169988
+          },
+          "rural_highspeed": {
+            "far_gate_probability": 0.05,
+            "n": 91805,
+            "n_beyond_realized": 584,
+            "n_eligible": 11056,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.006361309296879255
+          },
+          "unrestrained": {
+            "far_gate_probability": 0.05,
+            "n": 10335,
+            "n_beyond_realized": 245,
+            "n_eligible": 4849,
+            "population_upper_bound": 0.05,
+            "realized_beyond_mass": 0.02370585389453314
+          }
+        },
+        "transition_counts": [
+          [
+            599830,
+            66621,
+            0,
+            0,
+            0
+          ],
+          [
+            15923,
+            56074,
+            8129,
+            0,
+            0
+          ],
+          [
+            2451,
+            9485,
+            33287,
+            4641,
+            0
+          ],
+          [
+            0,
+            519,
+            2113,
+            7459,
+            1075
+          ],
+          [
+            0,
+            0,
+            116,
+            475,
+            1884
+          ]
+        ]
+      }
+    }
+  },
+  "generated_reported_outcome": "synthetic y_tilde",
+  "noise_seed": 20260708,
+  "pseudo_true_outcome": "observed CRIS y_kabco",
+  "regime": "semi_synthetic",
+  "transition_algorithm": {
+    "adjacent_over_branch": "among remaining records below K, report one category higher when 0.20 <= U < 0.30",
+    "adjacent_under_branch": "among remaining records above O, report one category lower when U < 0.20",
+    "branch_priority": [
+      "far",
+      "adjacent_under",
+      "adjacent_over",
+      "unchanged"
+    ],
+    "far_branch": "each B, A, or K record independently reports two categories lower with probability delta",
+    "population_cell_bound": "P(outside map | cell) = delta * P(Y in {B,A,K} | cell) <= delta",
+    "unchanged_branch": "all other records"
+  }
+}

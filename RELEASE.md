@@ -2,12 +2,12 @@
 
 ## 0.2.0 (2026-09-23)
 
-This release updates the package metadata and documentation to match the revised CHOIR
-manuscript. Guarantee language is conditional on exchangeability, training-frozen observed
+This release updates the package metadata, documentation, and reproducibility materials.
+Guarantee language is conditional on exchangeability, training-frozen observed
 cells, declared reporting compatibility, and the relevant risk or shift assumptions. The
 new-stratum discrepancy is documented as a diagnostic, not as a coverage guarantee. The
-companion article is prepared for submission to Analytic Methods in Accident Research.
-No CRIS record-level data are included.
+repository includes aggregate result artifacts and analysis scripts. No CRIS record-level
+data are included.
 
 The release passed 21 package tests, wheel and source-distribution builds, package metadata
 checks, an isolated wheel installation, and the bundled demonstration. The public artifacts

@@ -1,0 +1,7 @@
+method,year,coverage,avg_width,se,tv_lcb,cert_floor_lcb
+unweighted,2024,0.899341,3.438605,0.000390,nan,nan
+unweighted,2025,0.900780,3.437903,0.000393,nan,nan
+county_mondrian_4a,2024,0.900289,3.412224,0.000389,nan,nan
+county_mondrian_4a,2025,0.902333,3.414769,0.000391,nan,nan
+density_ratio_4b,2024,0.902404,3.453136,0.000385,0.348100,0.551900
+density_ratio_4b,2025,0.905341,3.460431,0.000385,0.355571,0.544429

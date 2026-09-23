@@ -144,7 +144,7 @@ def _print_table(results, alpha):
 
 
 def _write_results(results, alpha):
-    """Write the aggregate benchmark values used in the manuscript table."""
+    """Write the aggregate benchmark values stored with this repository."""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     fields = [
         "method",

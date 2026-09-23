@@ -1,8 +1,9 @@
 # Guarantees
 
 All results are finite-sample and distribution-free only under the assumptions stated in
-the companion paper. The package's `tests/` exercise the implementations on simulated
-data. Passing a test does not validate an assumption for an application dataset.
+this document and the relevant API documentation. The package's `tests/` exercise the
+implementations on simulated data. Passing a test does not validate an assumption for an
+application dataset.
 
 ## Class-conditional coverage
 

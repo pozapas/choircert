@@ -1,0 +1,25 @@
+\begin{table}[pos=htbp]
+\caption{Final-cell temporal stress test for histogram gradient boosting.}
+\label{tab:temporalcells}
+\centering\footnotesize
+\begin{threeparttable}
+\begin{tabular}{llrrrr}
+\toprule
+Year & Final cell & $n$ & Coverage & Simultaneous 95\% interval & Mean width \\
+\midrule
+2024 & Baseline & 509,230 & 0.9001 & [0.8989, 0.9012] & 3.19 \\
+2024 & Motorcycle & 6,481 & 0.9094 & [0.8993, 0.9189] & 4.23 \\
+2024 & Rural high-speed & 69,843 & 0.9049 & [0.9018, 0.9079] & 4.65 \\
+2024 & Unrestrained & 8,131 & 0.8950 & [0.8854, 0.9041] & 4.60 \\
+\addlinespace
+2025 & Baseline & 495,823 & 0.9028 & [0.9016, 0.9039] & 3.19 \\
+2025 & Motorcycle & 6,422 & 0.9011 & [0.8905, 0.9110] & 4.25 \\
+2025 & Rural high-speed & 67,181 & 0.9061 & [0.9030, 0.9092] & 4.66 \\
+2025 & Unrestrained & 8,300 & 0.8919 & [0.8823, 0.9011] & 4.61 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item The model is trained on 2017--2021 records and calibrated on 2022--2023 records. The eight two-sided Clopper--Pearson intervals use Bonferroni correction for at least 95\% simultaneous coverage. This table is a descriptive temporal stress test.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

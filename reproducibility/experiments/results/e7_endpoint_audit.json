@@ -1,0 +1,44 @@
+{
+  "alpha": 0.1,
+  "cached_prediction_timing": {
+    "cached": true,
+    "fit_s": 43.149672508239746,
+    "predict_s": 14.187350273132324
+  },
+  "compatibility_map_version": "kabco-main-v1",
+  "conditional_severe_omission_denominator": "all observed A or K test outcomes",
+  "delta": 0.02,
+  "endpoint_rule": "flag when upper endpoint is A or K",
+  "interpretation": "completed-record descriptive audit",
+  "joint_severe_omission_denominator": "all test records",
+  "model": "histgb",
+  "split": {
+    "eligible_rows": 4042510,
+    "eligible_unique_crashes": 4042510,
+    "fold_counts": {
+      "calibration": 808594,
+      "test": 810082,
+      "train": 2423834
+    },
+    "population": "primary one-driver-per-crash analysis rows",
+    "proportions": {
+      "calibration": 0.2,
+      "test": 0.2,
+      "train": 0.6
+    },
+    "seed": 20260704,
+    "split": "S1",
+    "year_counts": {
+      "2017": 578827,
+      "2018": 586292,
+      "2019": 603511,
+      "2020": 503142,
+      "2021": 586198,
+      "2022": 589873,
+      "2023": 594667
+    },
+    "year_end": 2023,
+    "year_start": 2017
+  },
+  "workload_denominator": "all test records"
+}

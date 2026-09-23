@@ -1,0 +1,24 @@
+canonical_csv_loading: PASS (paper/figure_src/data)
+clean_single_path_no_embedded_payload_or_early_exit: PASS
+annotation_tick_overlap: PASS
+annotation_annotation_overlap: PASS
+annotation_marker_overlap: PASS
+panel_d_gap_label_vs_observed_dot: PASS
+panel_d_observed_label_vs_state_tag: PASS
+panel_d_nominal_vs_declared_step_labels: PASS
+panel_heading_baseline_and_gap_alignment: PASS
+panel_c1_c2_tag_center_to_multiline_title: PASS
+panel_a_region_label_centering: PASS
+panel_a_region_labels_below_title_band: PASS
+panel_a_region_labels_outside_axes_inside_figure: PASS
+panel_a_right_axis_full_canvas_containment: PASS
+panel_a_right_axis_white_cushion_ge_12px: PASS (39.8px)
+panel_a_right_axis_label_padding_ge_18px: PASS (37.5px)
+lower_grid_outer_edges_align_to_panel_a_within_1px: PASS
+left_ylabels_a_b_c2_align_within_1px: PASS
+panel_d_nominal_label_vs_line_and_markers: PASS
+all_text_inside_canvas: PASS
+alarm_crossings: PASS (three pooled and three matched)
+declared_floor_arithmetic: PASS (0.90 minus 0.02 = 0.88)
+empirical_discrepancy_not_subtracted: PASS
+text_obscured_by_marks: PASS (reserved label bands and opaque annotation backing)

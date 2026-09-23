@@ -1,0 +1,24 @@
+\begin{table}[pos=htbp]
+\caption{Semi-synthetic composition audit by resolved final calibration cell (E8, $\alpha=0.10$, $\delta=0.02$).}
+\label{tbl:compose}
+\centering\footnotesize
+\begin{threeparttable}
+\begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}lrrrrr@{}}
+\toprule
+Final calibration cell & $n_{\rm cal}$ & $n_{\rm test}$ & Coverage & Mean width & Full scale (\%) \\
+\midrule
+Baseline, rural & 106,245 & 106,778 & 0.9950 & 4.317 & 39.7 \\
+Baseline, urban & 591,520 & 592,634 & 0.9976 & 4.240 & 29.4 \\
+Motorcycle, rural & 2,787 & 2,924 & 1.0000 & 5.000 & 100.0 \\
+Motorcycle, urban & 5,599 & 5,606 & 1.0000 & 5.000 & 100.0 \\
+Rural high-speed, rural & 92,187 & 91,805 & 0.9963 & 4.992 & 99.3 \\
+Unrestrained, rural & 4,673 & 4,594 & 0.9998 & 4.999 & 99.9 \\
+Unrestrained, urban & 5,583 & 5,741 & 0.9998 & 4.999 & 99.9 \\
+Overall & 808,594 & 810,082 & 0.9971 & 4.353 & 40.3 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}\footnotesize
+\item Observed CRIS KABCO is the proxy outcome on calibration and test folds. Synthetic reported labels are generated on calibration rows only; test coverage is evaluated against test-fold KABCO. Rows are resolved final calibration cells after the declared product-cell rollup. All cells meet the declared 0.88 sensitivity floor. The table reports a semi-synthetic implementation audit against proxy KABCO.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

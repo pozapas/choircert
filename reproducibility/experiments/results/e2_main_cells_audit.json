@@ -1,0 +1,75 @@
+{
+  "cell_counts": {
+    "calibration": {
+      "baseline": 697765,
+      "motorcycle": 8386,
+      "rural_highspeed": 92187,
+      "unrestrained": 10256
+    },
+    "test": {
+      "baseline": 699412,
+      "motorcycle": 8530,
+      "rural_highspeed": 91805,
+      "unrestrained": 10335
+    },
+    "training": {
+      "baseline": 2093267,
+      "motorcycle": 25053,
+      "rural_highspeed": 275290,
+      "unrestrained": 30224
+    }
+  },
+  "cell_rule": {
+    "baseline": "all remaining records",
+    "motorcycle": "Prsn_Type_ID == 'Driver Of Motorcycle Type Vehicle'",
+    "priority_high_to_low": [
+      "motorcycle",
+      "unrestrained",
+      "rural_highspeed",
+      "baseline"
+    ],
+    "raw_to_final_mapping": {
+      "baseline": "baseline",
+      "motorcycle": "motorcycle",
+      "rural_highspeed": "rural_highspeed",
+      "unrestrained": "unrestrained"
+    },
+    "rural_highspeed": "Rural_Fl == 'Y' and speed_limit >= 55 among remaining records",
+    "training_rollup_threshold": 1000,
+    "unrestrained": "Prsn_Rest_ID == 'None' among remaining records"
+  },
+  "simultaneous_policy": {
+    "comparisons": 12,
+    "family": "three main models by four final cells",
+    "family_error": 0.05,
+    "method": "two-sided Clopper-Pearson with Bonferroni correction"
+  },
+  "split": {
+    "eligible_rows": 4042510,
+    "eligible_unique_crashes": 4042510,
+    "fold_counts": {
+      "calibration": 808594,
+      "test": 810082,
+      "train": 2423834
+    },
+    "population": "primary one-driver-per-crash analysis rows",
+    "proportions": {
+      "calibration": 0.2,
+      "test": 0.2,
+      "train": 0.6
+    },
+    "seed": 20260704,
+    "split": "S1",
+    "year_counts": {
+      "2017": 578827,
+      "2018": 586292,
+      "2019": 603511,
+      "2020": 503142,
+      "2021": 586198,
+      "2022": 589873,
+      "2023": 594667
+    },
+    "year_end": 2023,
+    "year_start": 2017
+  }
+}

@@ -1,0 +1,8 @@
+class,stratum,x,coverage,floor,n
+baseline,rural,1,0.995596,0.880000,105805
+baseline,urban,2,0.997738,0.880000,591143
+motorcycle,rural,3,1.000000,0.880000,2866
+motorcycle,urban,4,1.000000,0.880000,5535
+rural_highspeed,rural,5,0.997603,0.880000,92189
+unrestrained,rural,6,1.000000,0.880000,5315
+unrestrained,urban,7,0.999862,0.880000,7229

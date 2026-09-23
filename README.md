@@ -89,9 +89,9 @@ Reproduce the comparison with
 
 ## What is guaranteed
 
-The results and their proofs are in the companion paper prepared for submission to
-Analytic Methods in Accident Research. Each is finite-sample and distribution-free only under its stated
-conditions: coverage conditional on training-frozen observed final cells; true-label
+The formal statements and operating conditions are summarized in
+[`docs/guarantees.md`](docs/guarantees.md). Each result is finite-sample and
+distribution-free only under its stated conditions: coverage conditional on training-frozen observed final cells; true-label
 coverage `1 - alpha - delta` under a declared banded compatibility map; weighted-shift
 coverage under covariate shift with an independent, correctly specified ratio fit; and
 severity-cost risk control, including the fatal-omission bound, under the declared noise
@@ -99,9 +99,20 @@ and exact-fatality premise. The shift discrepancy reported by CHOIR is not itsel
 coverage guarantee. The composition theorem combines only compatible branches with an
 additive, assumption-attributable slack budget.
 
+## Reproducibility materials
+
+The [`reproducibility`](reproducibility) directory contains experiment scripts,
+aggregate result artifacts, table generators, and illustration sources. It excludes
+Texas CRIS record-level data, crash identifiers, person identifiers, and private
+repository history. The bundled `demo_fars.csv` file is a synthetic public-schema
+demonstration table with 6,000 rows.
+
+See [`reproducibility/README.md`](reproducibility/README.md) for the directory
+inventory, environment requirements, and data-access boundary.
+
 ## Citing
 
-See `CITATION.cff`. Cite both the software (Zenodo DOI, on release) and the paper.
+See `CITATION.cff` for the software citation and version-independent Zenodo DOI.
 
 ## License
 

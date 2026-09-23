@@ -1,0 +1,4 @@
+FLOOR SELF-CHECK: PASS
+text items checked: 67
+overlap violations: 0
+clip violations: 0

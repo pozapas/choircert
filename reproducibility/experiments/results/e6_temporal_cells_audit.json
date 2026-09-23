@@ -1,0 +1,33 @@
+{
+  "alpha": 0.1,
+  "calibration_years": [
+    2022,
+    2023
+  ],
+  "cell_priority": [
+    "motorcycle",
+    "unrestrained",
+    "rural_highspeed",
+    "baseline"
+  ],
+  "model": "histgb",
+  "purpose": "descriptive temporal stress test without an exchangeability claim",
+  "seed": 20260704,
+  "simultaneous_policy": {
+    "comparisons": 8,
+    "family": "two target years by four final cells",
+    "family_error": 0.05,
+    "method": "two-sided Clopper-Pearson with Bonferroni correction"
+  },
+  "test_years": [
+    2024,
+    2025
+  ],
+  "training_years": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ]
+}

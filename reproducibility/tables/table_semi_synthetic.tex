@@ -1,0 +1,21 @@
+\begin{table}[pos=htbp]
+\caption{Semi-synthetic audit under the declared compatibility relation.}
+\label{tab:semisynthetic}
+\centering\footnotesize
+\begin{threeparttable}
+\begin{tabular}{lrrrrr}
+\toprule
+Final cell & $n$ & Report coverage & Outside-map share & Expanded coverage & Mean width \\
+\midrule
+Baseline & 699,412 & 0.8996 & 0.0012 & 0.9973 & 4.26 \\
+Motorcycle & 8,530 & 0.8955 & 0.0137 & 1.0000 & 5.00 \\
+Rural high-speed & 91,805 & 0.8969 & 0.0025 & 0.9963 & 4.99 \\
+Unrestrained & 10,335 & 0.9030 & 0.0108 & 0.9998 & 5.00 \\
+Overall & 810,082 & 0.8993 & 0.0016 & 0.9972 & 4.36 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item The fixed-score implementation stress test uses $\alpha=0.10$, $\delta_a=0.02$, and seed 20260708. The theorem floor is 0.88 in every cell. The observed CRIS category is the pre-injection proxy label. Cells use the priority rule stated in Table~\ref{tab:maincells}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

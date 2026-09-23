@@ -1,0 +1,9 @@
+DRAWIO SELF-CHECK: PASS
+xml_well_formed: PASS
+vertices_ge_30: PASS (38)
+edges_ge_22: PASS (22)
+required_notation_present: PASS
+drawio_math_enabled: PASS
+valued_vertices_latex_wrapped: PASS
+latex_blocks_ge_30: PASS (35)
+no_text_outside_math_blocks: PASS

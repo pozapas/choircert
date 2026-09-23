@@ -1,0 +1,5 @@
+FLOOR SELF-CHECK: PASS
+text_text_overlap: PASS
+all_text_inside_canvas: PASS
+no_prose_gate (allowed: ['Cert', 'LCB', 'cal', 'emp', 'max', 'mon', 'tr']): PASS
+text items checked: 35

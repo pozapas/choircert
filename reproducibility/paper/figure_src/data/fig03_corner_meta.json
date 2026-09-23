@@ -1,0 +1,60 @@
+{
+  "n_o": 4031053,
+  "n_ka": 84419,
+  "seed": 20260704,
+  "n_sample": 150000,
+  "variables": [
+    "speed_limit",
+    "hour",
+    "age",
+    "vehicle_age"
+  ],
+  "median_o": {
+    "speed_limit": 45.0,
+    "hour": 14.0,
+    "age": 35.0,
+    "vehicle_age": 7.0
+  },
+  "iqr_o": {
+    "speed_limit": [
+      35.0,
+      55.0
+    ],
+    "hour": [
+      9.0,
+      17.0
+    ],
+    "age": [
+      25.0,
+      50.0
+    ],
+    "vehicle_age": [
+      4.0,
+      13.0
+    ]
+  },
+  "median_ka": {
+    "speed_limit": 55.0,
+    "hour": 14.0,
+    "age": 36.0,
+    "vehicle_age": 10.0
+  },
+  "iqr_ka": {
+    "speed_limit": [
+      40.0,
+      65.0
+    ],
+    "hour": [
+      7.0,
+      18.0
+    ],
+    "age": [
+      25.0,
+      52.0
+    ],
+    "vehicle_age": [
+      5.0,
+      16.0
+    ]
+  }
+}

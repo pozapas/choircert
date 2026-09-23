@@ -1,0 +1,24 @@
+{
+  "seed": 20260704,
+  "source_distribution": "S2 calibration covariates, years 2022-2023",
+  "target_distribution": "unlabeled target-year covariates",
+  "target_split": "disjoint random fit and evaluation halves within each target year",
+  "years": {
+    "2024": {
+      "calibration_source_n": 1184540,
+      "diagnostic": "tv_lcb is a lower confidence bound on residual covariate mismatch. It can certify weakness. It cannot certify target coverage.",
+      "ratio": "dP_target_X / dP_calibration_X",
+      "target_evaluation_n": 296843,
+      "target_fit_and_evaluation_overlap": 0,
+      "target_fit_n": 296842
+    },
+    "2025": {
+      "calibration_source_n": 1184540,
+      "diagnostic": "tv_lcb is a lower confidence bound on residual covariate mismatch. It can certify weakness. It cannot certify target coverage.",
+      "ratio": "dP_target_X / dP_calibration_X",
+      "target_evaluation_n": 288863,
+      "target_fit_and_evaluation_overlap": 0,
+      "target_fit_n": 288863
+    }
+  }
+}

@@ -35,7 +35,7 @@ torch = ["torch>=2.0"]
 econ = ["scipy>=1.10"]
 maps = ["matplotlib>=3.7"]
 # Third-party conformal toolkits compared against CHOIR in
-# benchmarks/vs_mapie_crepes.py (paper Table 7). Both bounds are load-bearing:
+# benchmarks/vs_mapie_crepes.py. Both bounds are load-bearing:
 # the script targets MAPIE's v1.x SplitConformalClassifier API
 # (conformalize/predict_set), which replaced the v0.x MapieClassifier API, so
 # <2.0 guards against a future rename and >=1.0 excludes the old path. crepes

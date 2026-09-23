@@ -1,0 +1,19 @@
+\begin{table}[pos=htbp]
+\caption{Temporal completed-record stress test and covariate-mismatch diagnostic (E5, $\alpha=0.10$).}
+\label{tbl:temporal}
+\centering\footnotesize
+\begin{threeparttable}
+\begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}lrrrrr@{}}
+\toprule
+Method & Cov. 2024 & Cov. 2025 & Width 2024 & Width 2025 & Empirical LCB \\
+\midrule
+Unweighted split conformal & 0.8993 & 0.9008 & 3.439 & 3.438 & -- \\
+County-Mondrian & 0.9003 & 0.9023 & 3.412 & 3.415 & -- \\
+Density-ratio weighted & 0.8983 & 0.9035 & 3.436 & 3.452 & 0.000 / 0.000 \\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}\footnotesize
+\item The unweighted and County-Mondrian rows use 593,685 records in 2024 and 577,726 in 2025. The density-ratio row evaluates 296,843 and 288,863 records after estimating $dP_{\mathrm{target},X}/dP_{\mathrm{calibration},X}$ from 1,184,540 calibration records and disjoint target-year fit halves. Same-row unweighted coverage is 0.8990 and 0.9006. The empirical lower confidence bound measures separation from the finite weighted reference and does not bound the population transfer penalty. Both rerun values are 0.000.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

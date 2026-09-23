@@ -1,0 +1,2 @@
+year,level,nominal,band_delta_declared,tv_slack_lcb,pre_delta_floor,composed_floor,observed_coverage,method
+2025,state,0.9,0.02,0.3532862148975693,0.5467137851024307,0.5267137851024307,0.9048372411835368,density_ratio_4b

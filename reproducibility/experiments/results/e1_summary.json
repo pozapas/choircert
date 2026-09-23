@@ -1,0 +1,6 @@
+{
+  "test_screen_is_not_acceptance": true,
+  "all_test_screens_within_band": false,
+  "theorem_regime_check": "choir/tests/test_theorems.py",
+  "total_s": 110.74361658096313
+}

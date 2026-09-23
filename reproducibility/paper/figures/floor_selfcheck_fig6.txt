@@ -1,0 +1,10 @@
+FLOOR SELF-CHECK: PASS
+canonical_inputs: PASS
+heldout_count_54: PASS
+certified_count_29: PASS
+annotated_ranges_match_plan: PASS
+diagnostic_quantities_kept_separate: PASS
+fig2_axis_tick_style: PASS
+all_text_inside_canvas: PASS
+text_text_overlap: PASS
+savefig_dpi_300: PASS

@@ -1,0 +1,30 @@
+\begin{table}[pos=htbp]
+\caption{Reported-label coverage within the four training-frozen final cells.}
+\label{tab:maincells}
+\centering\footnotesize
+\begin{threeparttable}
+\begin{tabular}{llrrrr}
+\toprule
+Model & Final cell & $n$ & Coverage & Simultaneous 95\% interval & Mean width \\
+\midrule
+Ordered logit & Baseline & 699,412 & 0.8999 & [0.8989, 0.9009] & 1.42 \\
+Ordered logit & Motorcycle & 8,530 & 0.9004 & [0.8907, 0.9094] & 3.61 \\
+Ordered logit & Rural high-speed & 91,805 & 0.8988 & [0.8959, 0.9017] & 2.03 \\
+Ordered logit & Unrestrained & 10,335 & 0.9002 & [0.8915, 0.9085] & 3.77 \\
+\addlinespace
+Histogram gradient boosting & Baseline & 699,412 & 0.8997 & [0.8987, 0.9008] & 3.16 \\
+Histogram gradient boosting & Motorcycle & 8,530 & 0.8996 & [0.8900, 0.9088] & 4.22 \\
+Histogram gradient boosting & Rural high-speed & 91,805 & 0.8983 & [0.8954, 0.9011] & 4.65 \\
+Histogram gradient boosting & Unrestrained & 10,335 & 0.9022 & [0.8935, 0.9104] & 4.58 \\
+\addlinespace
+DLCON & Baseline & 699,412 & 0.8999 & [0.8989, 0.9009] & 1.40 \\
+DLCON & Motorcycle & 8,530 & 0.8984 & [0.8887, 0.9075] & 3.55 \\
+DLCON & Rural high-speed & 91,805 & 0.9000 & [0.8971, 0.9028] & 1.95 \\
+DLCON & Unrestrained & 10,335 & 0.9026 & [0.8939, 0.9107] & 3.58 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item The nominal coverage is 0.90. The 12 two-sided Clopper--Pearson intervals use Bonferroni correction for at least 95\% simultaneous coverage. Cells are mutually exclusive and follow the priority motorcycle, unrestrained among the remainder, rural high-speed among the remainder, and baseline.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

@@ -1,0 +1,386 @@
+{
+  "method": "exact_linear_programs_over_declared_finite_channel_set",
+  "alpha": 0.1,
+  "rounding_half_width": 5e-05,
+  "selection_indices": [
+    1,
+    2,
+    5
+  ],
+  "grid_size": 900,
+  "scope": "Exact for the declared finite scenario set and reported-share rounding intervals. Not an endpoint for a continuous channel or selection-function class.",
+  "results": [
+    {
+      "stratum": "baseline",
+      "selection_index": 1,
+      "floor": 0.9732394694628157,
+      "achieved_width": 1.4026,
+      "feasible_channels": 131,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.7303166260783553,
+      "latent_composition": [
+        0.8058809768062721,
+        0.09922944135577179,
+        0.08489573961510598,
+        0.009339981841522127,
+        0.0006538603813280352
+      ],
+      "reconstructed_reported_composition": [
+        0.8422499999999999,
+        0.09465000000000001,
+        0.05505,
+        0.0072000000000000605,
+        0.0008500000000000001
+      ],
+      "maximum_composition_residual": 0.0
+    },
+    {
+      "stratum": "baseline",
+      "selection_index": 2,
+      "floor": 0.9316580937190271,
+      "achieved_width": 1.4026,
+      "feasible_channels": 246,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.3335379186127424,
+      "latent_composition": [
+        0.8179935777903908,
+        0.10254432801145603,
+        0.07018932260983116,
+        0.008536227780339084,
+        0.0007365438079828349
+      ],
+      "reconstructed_reported_composition": [
+        0.84225,
+        0.09465000000000003,
+        0.05505,
+        0.007199999999999868,
+        0.0008500000000000001
+      ],
+      "maximum_composition_residual": 1.1102230246251565e-16
+    },
+    {
+      "stratum": "baseline",
+      "selection_index": 5,
+      "floor": 0.9106408657839561,
+      "achieved_width": 1.4026,
+      "feasible_channels": 270,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.0989278771451689,
+      "latent_composition": [
+        0.8309986359076912,
+        0.09916979112940583,
+        0.061231548497631474,
+        0.007799357752258657,
+        0.0008006667130128218
+      ],
+      "reconstructed_reported_composition": [
+        0.8422499999999998,
+        0.09465,
+        0.05505,
+        0.007200000000000111,
+        0.0008500000000000001
+      ],
+      "maximum_composition_residual": 1.3877787807814457e-17
+    },
+    {
+      "stratum": "rural_highspeed",
+      "selection_index": 1,
+      "floor": 0.9962342328077615,
+      "achieved_width": 1.9524,
+      "feasible_channels": 168,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.9364310725743719,
+      "latent_composition": [
+        0.7694915581547694,
+        0.0592391179895983,
+        0.1278529958230925,
+        0.03847428808226764,
+        0.004942039950272379
+      ],
+      "reconstructed_reported_composition": [
+        0.79005,
+        0.08845,
+        0.09075000000000001,
+        0.025000000000000175,
+        0.00575
+      ],
+      "maximum_composition_residual": 1.3877787807814457e-17
+    },
+    {
+      "stratum": "rural_highspeed",
+      "selection_index": 2,
+      "floor": 0.9467553113991061,
+      "achieved_width": 1.9524,
+      "feasible_channels": 270,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.33562432310150203,
+      "latent_composition": [
+        0.7713573036710498,
+        0.08014244117041715,
+        0.11113632685478965,
+        0.03203977339314597,
+        0.005324154910597427
+      ],
+      "reconstructed_reported_composition": [
+        0.7900500000000001,
+        0.08844999999999999,
+        0.09074999999999998,
+        0.02499999999999994,
+        0.00575
+      ],
+      "maximum_composition_residual": 1.1102230246251565e-16
+    },
+    {
+      "stratum": "rural_highspeed",
+      "selection_index": 5,
+      "floor": 0.9172546893577251,
+      "achieved_width": 1.9524,
+      "feasible_channels": 540,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.04741056849203263,
+      "latent_composition": [
+        0.7802368677020072,
+        0.08686356147295013,
+        0.09942533817060983,
+        0.027900713068419864,
+        0.005573519586013006
+      ],
+      "reconstructed_reported_composition": [
+        0.7900499999999999,
+        0.08845000000000001,
+        0.09075,
+        0.025000000000000123,
+        0.00575
+      ],
+      "maximum_composition_residual": 0.0
+    },
+    {
+      "stratum": "unrestrained",
+      "selection_index": 1,
+      "floor": 1.3600748522808481,
+      "achieved_width": 3.5819,
+      "feasible_channels": 634,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 2,
+      "boundary_t": 1,
+      "boundary_fraction": 0.47250794735336094,
+      "latent_composition": [
+        0.34514652645374083,
+        0.11123824474204047,
+        0.2001284008616581,
+        0.2655125923825951,
+        0.0779742355599655
+      ],
+      "reconstructed_reported_composition": [
+        0.38815,
+        0.14575000000000002,
+        0.22435,
+        0.15819999999999998,
+        0.08355
+      ],
+      "maximum_composition_residual": 0.0
+    },
+    {
+      "stratum": "unrestrained",
+      "selection_index": 2,
+      "floor": 1.1965750358587677,
+      "achieved_width": 3.5819,
+      "feasible_channels": 810,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 3,
+      "boundary_t": 2,
+      "boundary_fraction": 0.9303048116396566,
+      "latent_composition": [
+        0.3590283550464203,
+        0.11816792540105123,
+        0.23076040933939154,
+        0.211301751210235,
+        0.08074155900290193
+      ],
+      "reconstructed_reported_composition": [
+        0.38815000000000005,
+        0.14575000000000005,
+        0.22435,
+        0.15819999999999987,
+        0.08355
+      ],
+      "maximum_composition_residual": 5.551115123125783e-17
+    },
+    {
+      "stratum": "unrestrained",
+      "selection_index": 5,
+      "floor": 0.9648374837531143,
+      "achieved_width": 3.5819,
+      "feasible_channels": 705,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 1,
+      "boundary_t": 1,
+      "boundary_fraction": 0.738975470006848,
+      "latent_composition": [
+        0.3722592634809877,
+        0.13470962383423504,
+        0.23117843662651472,
+        0.17943767338994568,
+        0.08241500266831661
+      ],
+      "reconstructed_reported_composition": [
+        0.38815,
+        0.14575000000000002,
+        0.22434999999999997,
+        0.15819999999999979,
+        0.08355
+      ],
+      "maximum_composition_residual": 0.0
+    },
+    {
+      "stratum": "motorcycle",
+      "selection_index": 1,
+      "floor": 1.635197996063793,
+      "achieved_width": 3.5517,
+      "feasible_channels": 755,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 2,
+      "boundary_t": 1,
+      "boundary_fraction": 0.6376536915601954,
+      "latent_composition": [
+        0.11175736965654269,
+        0.08180365870196359,
+        0.34074398113843346,
+        0.41792133861395325,
+        0.047773651889106976
+      ],
+      "reconstructed_reported_composition": [
+        0.14395,
+        0.18385,
+        0.3661,
+        0.24954999999999997,
+        0.05655
+      ],
+      "maximum_composition_residual": 2.7755575615628914e-17
+    },
+    {
+      "stratum": "motorcycle",
+      "selection_index": 2,
+      "floor": 1.4824718246449389,
+      "achieved_width": 3.5517,
+      "feasible_channels": 735,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 2,
+      "boundary_t": 1,
+      "boundary_fraction": 0.39134876612042957,
+      "latent_composition": [
+        0.11419802471247059,
+        0.11872107741919746,
+        0.3819673214480392,
+        0.33298938469792344,
+        0.05212419172236937
+      ],
+      "reconstructed_reported_composition": [
+        0.14395,
+        0.18385,
+        0.3661,
+        0.24955,
+        0.05655
+      ],
+      "maximum_composition_residual": 0.0
+    },
+    {
+      "stratum": "motorcycle",
+      "selection_index": 5,
+      "floor": 1.0321265676822593,
+      "achieved_width": 3.5517,
+      "feasible_channels": 705,
+      "evaluated_channels": 900,
+      "a_o": 0.92,
+      "a_interior": 0.58,
+      "a_k": 1.0,
+      "down_fraction": 0.95,
+      "leak": 0.0,
+      "boundary_y": 3,
+      "boundary_t": 2,
+      "boundary_fraction": 0.11354274193403574,
+      "latent_composition": [
+        0.125036540290015,
+        0.15821014889803156,
+        0.3790461278760503,
+        0.2829469073498631,
+        0.054760275586040026
+      ],
+      "reconstructed_reported_composition": [
+        0.14395000000000002,
+        0.18385,
+        0.3661,
+        0.24955000000000002,
+        0.05655
+      ],
+      "maximum_composition_residual": 2.7755575615628914e-17
+    }
+  ]
+}

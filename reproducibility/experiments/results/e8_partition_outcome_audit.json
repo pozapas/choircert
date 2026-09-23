@@ -1,0 +1,157 @@
+{
+  "leaf_to_final_calibration_cell": [
+    {
+      "class_cell": "baseline",
+      "final_cell": "cell:baseline|rural",
+      "final_n_cal": 106245,
+      "leaf_cell": "baseline|rural",
+      "leaf_n_cal": 106245,
+      "rollup_level": "cell"
+    },
+    {
+      "class_cell": "baseline",
+      "final_cell": "cell:baseline|urban",
+      "final_n_cal": 591520,
+      "leaf_cell": "baseline|urban",
+      "leaf_n_cal": 591520,
+      "rollup_level": "cell"
+    },
+    {
+      "class_cell": "motorcycle",
+      "final_cell": "cell:motorcycle|rural",
+      "final_n_cal": 2787,
+      "leaf_cell": "motorcycle|rural",
+      "leaf_n_cal": 2787,
+      "rollup_level": "cell"
+    },
+    {
+      "class_cell": "motorcycle",
+      "final_cell": "cell:motorcycle|urban",
+      "final_n_cal": 5599,
+      "leaf_cell": "motorcycle|urban",
+      "leaf_n_cal": 5599,
+      "rollup_level": "cell"
+    },
+    {
+      "class_cell": "rural_highspeed",
+      "final_cell": "cell:rural_highspeed|rural",
+      "final_n_cal": 92187,
+      "leaf_cell": "rural_highspeed|rural",
+      "leaf_n_cal": 92187,
+      "rollup_level": "cell"
+    },
+    {
+      "class_cell": "unrestrained",
+      "final_cell": "cell:unrestrained|rural",
+      "final_n_cal": 4673,
+      "leaf_cell": "unrestrained|rural",
+      "leaf_n_cal": 4673,
+      "rollup_level": "cell"
+    },
+    {
+      "class_cell": "unrestrained",
+      "final_cell": "cell:unrestrained|urban",
+      "final_n_cal": 5583,
+      "leaf_cell": "unrestrained|urban",
+      "leaf_n_cal": 5583,
+      "rollup_level": "cell"
+    }
+  ],
+  "noise_compatibility_maps": {
+    "constant_b1": {
+      "declared_delta": 0.02,
+      "map": {
+        "constant_band": {
+          "down": 1,
+          "up": 1
+        }
+      },
+      "realized_beyond_compatibility_mass_calibration": 0.0014976613727037302
+    },
+    "kabco_catdep": {
+      "declared_delta": 0.02,
+      "map": {
+        "1": {
+          "down": 0,
+          "up": 1
+        },
+        "2": {
+          "down": 1,
+          "up": 1
+        },
+        "3": {
+          "down": 1,
+          "up": 1
+        },
+        "4": {
+          "down": 2,
+          "up": 1
+        },
+        "5": {
+          "down": 0,
+          "up": 0
+        }
+      },
+      "realized_beyond_compatibility_mass_calibration": 0.0014976613727037302
+    }
+  },
+  "outcome_construction": {
+    "calibration_error_rate": 0.13426144641191995,
+    "declared_delta": 0.02,
+    "exact_fatal_in_injection": true,
+    "fatal_labels_changed_in_calibration": 0,
+    "noise_seed": 20260712,
+    "pseudo_true_outcome": "observed CRIS y_kabco on calibration and test folds",
+    "regime": "semi_synthetic",
+    "synthetic_reported_outcome": "inject_noise(pseudo_true_outcome) on calibration fold only",
+    "test_evaluation_outcome": "observed CRIS y_kabco as pseudo-true outcome"
+  },
+  "partition_definition": {
+    "baseline": "all remaining rows",
+    "class_priority_high_to_low": [
+      "motorcycle",
+      "unrestrained",
+      "rural_highspeed",
+      "baseline"
+    ],
+    "motorcycle": "Prsn_Type_ID == 'Driver Of Motorcycle Type Vehicle'",
+    "n_min": 1000,
+    "product": "declared safety class x Rural_Fl rural/urban",
+    "rollup_order": [
+      "product leaf",
+      "declared safety class",
+      "global"
+    ],
+    "rural_highspeed": "Rural_Fl == 'Y' and speed_limit >= 55",
+    "stratum": "rural if Rural_Fl == 'Y', otherwise urban",
+    "unrestrained": "Prsn_Rest_ID == 'None'"
+  },
+  "split": {
+    "eligible_rows": 4042510,
+    "eligible_unique_crashes": 4042510,
+    "fold_counts": {
+      "calibration": 808594,
+      "test": 810082,
+      "train": 2423834
+    },
+    "population": "primary one-driver-per-crash analysis rows",
+    "proportions": {
+      "calibration": 0.2,
+      "test": 0.2,
+      "train": 0.6
+    },
+    "seed": 20260704,
+    "split": "S1",
+    "year_counts": {
+      "2017": 578827,
+      "2018": 586292,
+      "2019": 603511,
+      "2020": 503142,
+      "2021": 586198,
+      "2022": 589873,
+      "2023": 594667
+    },
+    "year_end": 2023,
+    "year_start": 2017
+  }
+}

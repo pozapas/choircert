@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite both the software and the paper."
+message: "If you use this software, please cite the archived software release."
 title: "CHOIR: a certification layer for ordinal, safety-critical prediction"
 type: software
 authors:
@@ -25,14 +25,3 @@ keywords:
   - distribution-free inference
   - risk control
   - trustworthy AI
-preferred-citation:
-  type: article
-  title: "Distribution-free certification of ordinal crash-injury predictions under reporting uncertainty with Texas CRIS validation"
-  authors:
-    - family-names: Rafe
-      given-names: Amir
-    - family-names: Das
-      given-names: Subasish
-  journal: "Analytic Methods in Accident Research"
-  year: 2026
-  notes: "Prepared for submission."
