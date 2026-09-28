@@ -204,7 +204,7 @@ d.add_text(13.08, 1.22, 115, 22, r"$$t=1,2,\ldots$$", color=SLATE, size=15, alig
 # Fitted tier.
 d.add_node("F", 1.35, 6.55, r"$$\hat F(\cdot\mid x)$$", r=0.50, size=21)
 d.add_node("c", 4.00, 6.55, r"$$\hat c(x)$$", size=20)
-d.add_node("g", 5.90, 6.55, r"$$g(x)$$", size=20)
+d.add_node("g", 5.90, 6.55, r"$$R(x)$$", size=20)
 d.add_node("w", 7.80, 6.55, r"$$\hat w(x)$$", size=20)
 for x, target in [(1.35, "F"), (4.00, "c"), (5.90, "g"), (7.80, "w")]:
     d.add_hyper(x, 7.38, r"$$\mathcal{I}_{\mathrm{tr}}$$", target)
@@ -228,7 +228,7 @@ d.add_edge("g", "q")
 d.add_edge("w", "q", color=GOLD, dashed=True)
 d.add_node("lam", 8.00, 1.18, r"$$\hat\lambda$$", r=0.36, size=20)
 d.add_hyper(9.30, 1.05, r"$$\kappa,\beta$$", "lam")
-d.add_text(7.05, 0.38, 305, 22, r"$$\mathbb{E}[\kappa(Y)\mathbf{1}\{Y\notin C_{\hat\lambda}\}]\leq\beta$$",
+d.add_text(7.05, 0.38, 305, 22, r"$$\mathbb{E}[\kappa(\tilde Y)\mathbf{1}\{\tilde Y\notin \tilde C_{\hat\lambda}\}]\leq\beta\kappa_{\max}$$",
            color=SLATE, size=14, italic=True, align="left")
 
 # Deployment.
@@ -261,7 +261,7 @@ d.add_hyper(11.45, 1.42, r"$$\hat\Delta_{\mathrm{emp}}$$", "Cert", color=GOLD)
 # Feedback arc and alarm label.
 d.add_edge((9.95, 1.90), (3.32, 2.25), color=CORAL, dashed=True,
            curved=True, waypoints=[(7.7, 1.45), (5.4, 1.35)])
-d.add_text(5.54, 1.42, 170, 22, r"$$M_t\geq 1/\alpha_{\mathrm{mon}}$$", color=CORAL, size=14, italic=True)
+d.add_text(5.54, 1.42, 170, 22, r"$$M_t\geq b$$", color=CORAL, size=14, italic=True)
 
 drawio_path = OUT / "fig1_choir_pipeline.drawio"
 d.write(drawio_path)
@@ -274,7 +274,7 @@ vertices = [c for c in cells if c.get("vertex") == "1"]
 edges = [c for c in cells if c.get("edge") == "1"]
 labels = " ".join(c.get("value", "") for c in cells)
 required = [
-    r"\hat F", r"\hat c", r"g(x)", r"\hat w", r"\hat q_{c\gamma}",
+    r"\hat F", r"\hat c", r"R(x)", r"\hat w", r"\hat q_{c\gamma}",
     r"\tilde C_t", r"C^{\oplus}_t", r"M_t", r"\mathrm{Cert}",
 ]
 required_ok = all(token in labels for token in required)

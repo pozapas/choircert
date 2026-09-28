@@ -92,7 +92,7 @@ plate(9.40, 0.95, 4.75, 4.90, SLATE, r"$t=1,2,\ldots$", (9.57, 1.08))
 # ---------------------------------------------------------------- top tier
 node("F", 1.70, 6.45, r"$\hat F(\cdot\,|\,x)$", r=0.52, fs=8.4)
 node("c", 3.85, 6.45, r"$\hat c(x)$", r=0.46, fs=8.8)
-node("g", 5.90, 6.45, r"$g(x)$", r=0.46, fs=8.8)
+node("g", 5.90, 6.45, r"$R(x)$", r=0.46, fs=8.8)
 node("w", 8.05, 6.45, r"$\hat w(x)$", r=0.46, fs=8.8)
 for nm in ("F", "c", "g", "w"):
     x, y, r = nodes[nm]
@@ -107,7 +107,7 @@ edge((9.22, 7.00), "w", color=GOLD, ls=(0, (3, 2)), shrink_a=0.0)
 # dependence is honest: S_i -> lambda-hat; kappa/beta are declared inputs).
 node("lam", 11.35, 6.45, r"$\hat\lambda$", r=0.50, fs=9.2)
 hyper(11.35, 7.32, r"$\kappa,\beta$", "lam", color=SLATE)
-formula(13.10, 6.45, r"$\mathbb{E}[\kappa(Y)\mathbf{1}\{Y\notin C_{\hat\lambda}\}]\leq\beta$",
+formula(13.10, 6.45, r"$\mathbb{E}[\kappa(\tilde Y)\mathbf{1}\{\tilde Y\notin \tilde C_{\hat\lambda}\}]\leq\beta\kappa_{\max}$",
         fs=6.0, color=SLATE)
 
 # ---------------------------------------------------------------- calibration
@@ -166,7 +166,7 @@ ax.plot([11.00, 11.00, 2.10], [1.55 - 0.46, FB_Y, FB_Y],
 ax.add_patch(FancyArrowPatch((2.10, FB_Y), (2.10, 1.31), arrowstyle="-|>",
                              mutation_scale=7, linewidth=0.9, color=CORAL,
                              linestyle=(0, (4, 2.5)), shrinkA=0, shrinkB=0, zorder=2))
-formula(6.50, 0.58, r"$M_t\geq 1/\alpha_{\mathrm{mon}}$", color=CORAL)
+formula(6.50, 0.58, r"$M_t\geq b$", color=CORAL)
 
 # ================================================================ floor checks
 fig.canvas.draw(); renderer = fig.canvas.get_renderer()
