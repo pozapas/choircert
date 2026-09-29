@@ -32,7 +32,7 @@ def main():
 
     cnty_ca = ca.Cnty_ID.astype(str).to_numpy()
     cnty_te = te.Cnty_ID.astype(str).to_numpy()
-    counts = pd.Series(cnty_ca).value_counts()
+    counts = pd.Series(tr.Cnty_ID.astype(str).to_numpy()).value_counts()  # cells frozen on training counts
     big = set(counts[counts >= N_MIN].index)
     cells_ca = np.where(pd.Series(cnty_ca).isin(big).to_numpy(), cnty_ca, "STATE")
     cells_te = np.where(pd.Series(cnty_te).isin(big).to_numpy(), cnty_te, "STATE")

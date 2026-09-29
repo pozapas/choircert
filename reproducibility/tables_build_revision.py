@@ -12,8 +12,8 @@ OLD = RES
 def w(name, lines):
     open(T / name, "w", encoding="utf-8").write("\n".join(lines) + "\n")
 
-names = {'ordered_logit': 'Ordered logit', 'multinomial_lr': 'Multinomial logit', 'lc_logit': 'Latent-class ordered logit',
-         'rp_logit': 'Random-parameters ordered logit', 'histgb': 'Gradient boosting (balanced)', 'dlcon': 'DLCON', 'tabpfn': 'TabPFN v3'}
+names = {'ordered_logit': 'Ordered logit', 'multinomial_lr': 'Multinomial logit', 'lc_logit': 'Latent-class OL',
+         'rp_logit': 'Random-parameters OL', 'histgb': 'Gradient boosting', 'dlcon': 'DLCON', 'tabpfn': 'TabPFN'}
 order = ['ordered_logit', 'multinomial_lr', 'lc_logit', 'rp_logit', 'histgb', 'dlcon', 'tabpfn']
 
 # ---- Table: seven models (pooled coverage, pooled width, certified width, RPS, timings)
@@ -27,7 +27,7 @@ def tfmt(s):
     return f"{s/60:.0f}\\,min"
 L = [r"\begin{table}[pos=htbp]",
      r"\caption{One certification layer over seven base models ($\alpha=0.10$).}\label{tbl:models}",
-     r"\centering\footnotesize", r"\begin{threeparttable}",
+     r"\centering\footnotesize", r"\setlength{\tabcolsep}{2.6pt}", r"\begin{threeparttable}",
      r"\begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}lcccccccc@{}}", r"\toprule",
      r" & \multicolumn{2}{c}{Pooled calibration} & Certified & & & & & \\",
      r"\cmidrule(lr){2-3}",
@@ -36,7 +36,7 @@ for m in order:
     r = e1[e1.model == m].iloc[0]; c = mon[mon.model == m].iloc[0]
     L.append(f"{names[m]} & {r.coverage:.4f} & {r.avg_width:.2f} & {c.avg_width:.2f} & {q[m]['rps']:.3f} & {q[m]['log_loss']:.3f} & {tfmt(r.fit_s)} & {tfmt(r.predict_s)} & {r.calibrate_s:.2f}\\,s \\\\")
 L += [r"\bottomrule", r"\end{tabular*}", r"\begin{tablenotes}[flushleft]\footnotesize",
-      r"\item[] \textit{Note:} Held-out test records $n=810{,}082$; nominal coverage 0.90. Pooled calibration uses one threshold for all records; the certified width uses calibration within the four final cells (Table~\ref{tab:maincells}). RPS is the ranked probability score and log loss the mean negative log-likelihood of the reported category on the test fold (lower is better). Every set is contiguous. At $\alpha\in\{0.05,0.10,0.20\}$, 20 of 21 model-by-$\alpha$ cells met a descriptive screen of nominal less three binomial standard errors; the exception is gradient boosting at $\alpha=0.10$, short by 0.00008. Fit and predict belong to the base model and reflect the training subsamples and context sizes in Section~\ref{sec:splitting}; five models ran on a desktop CPU and DLCON and TabPFN on a GPU, so timings compare orders of magnitude only.",
+      r"\item[] \textit{Note:} Held-out test records $n=810{,}082$; nominal coverage 0.90. Pooled calibration uses one threshold for all records; the certified width uses calibration within the four final cells (Table~\ref{tab:maincells}). RPS is the ranked probability score and log loss the mean negative log-likelihood of the reported category on the test fold (lower is better). Every set is contiguous. At $\alpha\in\{0.05,0.10,0.20\}$, 20 of 21 model-by-$\alpha$ cells met a descriptive screen of nominal less three binomial standard errors; the exception is gradient boosting at $\alpha=0.10$, short by 0.00008. Fit and predict belong to the base model and reflect the training subsamples and context sizes in Section~\ref{sec:splitting}; five models ran on a desktop CPU and DLCON and TabPFN on a GPU, so timings compare orders of magnitude only. OL is ordered logit; gradient boosting uses balanced class weights.",
       r"\end{tablenotes}", r"\end{threeparttable}", r"\end{table}"]
 w("table3_models.tex", L)
 
@@ -44,7 +44,7 @@ w("table3_models.tex", L)
 b = pd.read_parquet(RES / "b1_baselines.parquet")
 L = [r"\begin{table}[pos=htbp]",
      r"\caption{Alternative conformal methods on the primary sample ($\alpha=0.10$).}\label{tab:baselines}",
-     r"\centering\footnotesize", r"\begin{threeparttable}",
+     r"\centering\footnotesize", r"\setlength{\tabcolsep}{3pt}", r"\begin{threeparttable}",
      r"\begin{tabular*}{\tblwidth}{@{\extracolsep{\fill}}llcccccc@{}}", r"\toprule",
      r" & & & & & \multicolumn{3}{c}{Coverage in safety cells} \\", r"\cmidrule(lr){6-8}",
      r"Base model & Method & Coverage & Mean size & Contiguous & Motorcycle & Rural high-speed & Unrestrained \\", r"\midrule"]
