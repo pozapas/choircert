@@ -143,10 +143,10 @@ ad.plot([nom,post],[y+.09,y+.09],color=INK,lw=1.1); ad.annotate('',xy=(post,y+.0
 ad.scatter([nom,post],[y,y],s=[18,26],c=[INK,HDR_BLUE],zorder=5)
 ad.text(.97,.58,f'nominal\n{nom:.2f}',ha='right',fontsize=5.8,fontweight='bold')
 ad.annotate(f'declared floor\n{post:.2f}',xy=(post,y),xytext=(.62,.28),ha='center',fontsize=5.6,arrowprops=dict(arrowstyle='-',color=HDR_BLUE,lw=.5))
-ad.text(.40,.18,f'empirical discrepancy LCB  {empirical:.3f}',ha='center',fontsize=5.7,color=CORAL,fontweight='bold')
+ad.text(.40,.18,f'classifier mismatch statistic  {empirical:.3f}',ha='center',fontsize=5.7,color=CORAL,fontweight='bold')
 ad.scatter([obs],[.78],s=28,color=INK,zorder=6); ad.text(.42,.91,f'observed {obs:.4f}',ha='center',fontsize=5.8,fontweight='bold')
-ad.text(.5,.105,'the empirical LCB is not subtracted from coverage',ha='center',fontsize=6.3,style='italic')
-ad.text(.5,.035,'it compares the target with the finite weighted reference',ha='center',fontsize=5.25,color=SLATE)
+ad.text(.5,.105,'the mismatch statistic is not subtracted from coverage',ha='center',fontsize=6.3,style='italic')
+ad.text(.5,.035,'it measures mismatch a linear discriminator can detect',ha='center',fontsize=5.25,color=SLATE)
 
 # Deterministic integrity and export-floor checks.
 fig.canvas.draw(); renderer=fig.canvas.get_renderer()
@@ -185,7 +185,7 @@ for name,px,py,sz in points:
         if any(t.get_text().startswith(p) for p in connected[name]): continue
         if t.get_window_extent(renderer).overlaps(mb): marker_over.append((t.get_text(),name))
 def text_start(prefix): return next(t for t in ad.texts if t.get_text().startswith(prefix))
-gap_clear=not text_start('empirical discrepancy').get_window_extent(renderer).overlaps(marker_boxes['observed'])
+gap_clear=not text_start('classifier mismatch').get_window_extent(renderer).overlaps(marker_boxes['observed'])
 obs_tag_clear=not text_start('observed 0').get_window_extent(renderer).overlaps(text_start('state level').get_window_extent(renderer))
 step_clear=not text_start('nominal').get_window_extent(renderer).overlaps(text_start('declared floor').get_window_extent(renderer))
 # Heading baseline and constant 4-point tag gap checks.

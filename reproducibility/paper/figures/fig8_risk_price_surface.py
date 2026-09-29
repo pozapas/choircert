@@ -173,7 +173,7 @@ def style_line_ax(ax, title):
 def e7_markers(ax, ycol):
     ax.plot(E7["beta"].values, E7[ycol].values, linestyle="none", marker="o",
             markerfacecolor="white", markeredgecolor=INK, markeredgewidth=1.0,
-            markersize=6.0, zorder=6, label="E7 grid (tested)")
+            markersize=6.0, zorder=6, label="initial budgets")
 
 
 # (a) joint fatal-omission probability vs budget -------------------------------

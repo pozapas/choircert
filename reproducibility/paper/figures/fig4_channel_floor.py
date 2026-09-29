@@ -113,9 +113,9 @@ def main():
 
     legend = [
         Patch(facecolor="#d9d9d9", edgecolor=INK, label="one category (mandatory)"),
-        Patch(facecolor=CORAL, edgecolor=INK, label="scenario excess ($R{=}5$)"),
+        Patch(facecolor=CORAL, edgecolor=INK, label=r"scenario excess ($\varrho{=}5$)"),
         Patch(facecolor=SAND, edgecolor=CORAL, hatch="////",
-              label="scenario range ($R{=}5$ to $1$)"),
+              label=r"scenario range ($\varrho{=}5$ to $1$)"),
         Patch(facecolor=SEQTEAL3, edgecolor=ACCENT_TEAL, label="remaining width gap"),
         Line2D([0], [0], color=INK, linewidth=1.6, label="achieved base width"),
     ]

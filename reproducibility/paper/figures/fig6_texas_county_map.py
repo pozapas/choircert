@@ -240,7 +240,7 @@ cax.set_title("nominal 0.90", fontsize=6.8, color=INK, pad=10)
 legend_handles = [
     Line2D([0], [0], marker="o", linestyle="none", markerfacecolor="white",
            markeredgecolor=INK, markeredgewidth=0.7, markersize=5.4,
-           label="weighted diagnostic available"),
+           label="weighted coverage available"),
     Line2D([0], [0], marker="o", linestyle="none", markerfacecolor="white",
            markeredgecolor=HDR_BLUE, markeredgewidth=1.1, markersize=5.4,
            label="Ward (inset)"),
@@ -253,8 +253,8 @@ leg.set_zorder(8)
 
 ax.text(0.015, 0.985,
         "coverage 0.372-0.936\n"
-        "weighted diagnostic 0.872-0.922\n"
-        "empirical discrepancy LCB 0.000-0.097",
+        "weighted coverage 0.872-0.922\n"
+        "classifier mismatch statistic 0.000-0.097",
         transform=ax.transAxes, ha="left", va="top",
         fontsize=6.5, color=INK, linespacing=1.35, zorder=7)
 
@@ -267,12 +267,12 @@ card.set_yticks([])
 card.add_patch(FancyBboxPatch((0, 0), 1, 1, boxstyle="round,pad=.018,rounding_size=.025",
                               transform=card.transAxes, facecolor="white",
                               edgecolor=INK, linewidth=0.7, clip_on=False))
-card.text(0.05, 0.86, "Ward diagnostic", transform=card.transAxes,
+card.text(0.05, 0.86, "Ward County", transform=card.transAxes,
           ha="left", va="top", fontsize=6.7, fontweight="bold")
 card.text(0.95, 0.86, f"n={int(example.n_test):,}", transform=card.transAxes,
           ha="right", va="top", fontsize=5.8, color=SLATE)
 xs = [0.17, 0.50, 0.83]
-labels = ["raw coverage", "weighted", r"empirical $\Delta$"]
+labels = ["raw coverage", "weighted", "mismatch"]
 values = [float(example.unw_coverage), float(example.w_coverage), float(example.tv_lcb)]
 colors = [CORAL, HDR_BLUE, INK]
 for x, label, value, color in zip(xs, labels, values, colors):
@@ -284,10 +284,10 @@ for x, label, value, color in zip(xs, labels, values, colors):
 card.text(0.50, 0.27, "held-out empirical quantities", transform=card.transAxes,
           ha="center", va="bottom", fontsize=5.0, color=SLATE, style="italic")
 card.text(0.50, 0.13,
-          r"$\Delta$ compares the target with the finite weighted reference",
+          "mismatch: linear-discriminator statistic",
           transform=card.transAxes, ha="center", va="bottom",
           fontsize=4.35, color=SLATE)
-card.text(0.50, 0.04, "it is not a population transfer-penalty bound", transform=card.transAxes,
+card.text(0.50, 0.04, "it is not a bound on the transfer penalty", transform=card.transAxes,
           ha="center", va="bottom", fontsize=4.35, color=SLATE)
 
 

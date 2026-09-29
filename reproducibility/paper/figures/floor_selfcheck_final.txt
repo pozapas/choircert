@@ -1,4 +1,4 @@
-canonical_csv_loading: PASS (C:\Users\nib37\AppData\Local\Temp\claude\C--Users-nib37-OneDrive---Texas-State-University-AIT-Papers-WorldModels-AMAR-v2-OVERLEAF-PACKAGE\d2068817-a72b-46f9-80c7-9f5812ce43ec\scratchpad\repo\reproducibility\paper\figure_src\data)
+canonical_csv_loading: PASS (reproducibility/paper/figure_src/data)
 clean_single_path_no_embedded_payload_or_early_exit: PASS
 annotation_tick_overlap: PASS
 annotation_annotation_overlap: PASS

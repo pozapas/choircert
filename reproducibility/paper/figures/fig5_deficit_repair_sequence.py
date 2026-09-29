@@ -110,8 +110,8 @@ s_edges = np.arange(15, 90, 5)                 # 15..85, each bin spans [floor, 
 # two-line wrap; (b) and (c) fit in one row.
 METHOD_COLS = {
     "(a)": ("cov_marginal", "Marginal deficit on\nthe severity ridge"),
-    "(b)": ("cov_mondrian", "A generic partition narrows it"),
-    "(c)": ("cov_declared", "Declared bands close the ridge"),
+    "(b)": ("cov_mondrian", "KMeans partition narrows it"),
+    "(c)": ("cov_declared", "Speed-hour partition"),
 }
 
 N_grid = surf.pivot(index="speed_bin", columns="hour", values="n").reindex(
@@ -215,7 +215,7 @@ ax_e = fig.add_axes([LEFT + bot_w + BGAP, BOT_Y0, bot_w, bot_h])
 LINES = [
     ("cov_marginal", CORAL, "-", 1.6, "Marginal"),
     ("cov_mondrian", GOLD, "-", 1.1, "KMeans-8 partition"),
-    ("cov_declared", ACCENT_TEAL, "--", 1.6, "Declared bands"),
+    ("cov_declared", ACCENT_TEAL, "--", 1.6, "Speed-hour partition"),
 ]
 
 def draw_curves(ax, sub, xcol):
@@ -239,7 +239,7 @@ ax_d.set_xticks(np.arange(20, 85, 15))
 ax_d.set_xlabel("posted speed limit (mph)")
 ax_d.set_ylim(0.30, 1.02)
 ax_d.set_yticks([0.4, 0.6, 0.8, 1.0])
-ax_d.annotate("(d) Only declared bands hold the high-speed tail",
+ax_d.annotate("(d) Only the speed-hour partition holds the high-speed tail",
               xy=(0.0, 1.0), xycoords="axes fraction",
               xytext=(0, 3), textcoords="offset points", ha="left", va="bottom",
               fontsize=7.0, fontweight="bold", color=INK)
@@ -259,7 +259,7 @@ ax_e.set_xticklabels([f"{h:02d}" for h in np.arange(0, 24, 6)])
 ax_e.set_xlabel("hour of day")
 ax_e.set_ylim(0.55, 0.97)
 ax_e.set_yticks([0.6, 0.7, 0.8, 0.9])
-ax_e.annotate("(e) Declared bands hold the night; the residue\nmoves to the band edges",
+ax_e.annotate("(e) The speed-hour partition holds the night; the\nresidue moves to the band edges",
               xy=(0.0, 1.0), xycoords="axes fraction",
               xytext=(0, 3), textcoords="offset points", ha="left", va="bottom",
               fontsize=7.0, fontweight="bold", color=INK, linespacing=1.15)
@@ -268,7 +268,7 @@ ax_e.annotate("(e) Declared bands hold the night; the residue\nmoves to the band
 legend_handles = [
     Line2D([0], [0], color=CORAL, linestyle="-", linewidth=1.6, label="Marginal"),
     Line2D([0], [0], color=GOLD, linestyle="-", linewidth=1.1, label="KMeans-8 partition"),
-    Line2D([0], [0], color=ACCENT_TEAL, linestyle="--", linewidth=1.6, label="Declared bands"),
+    Line2D([0], [0], color=ACCENT_TEAL, linestyle="--", linewidth=1.6, label="Speed-hour partition"),
     Line2D([0], [0], color=INK, linestyle=(0, (4, 3)), linewidth=0.9, label="nominal 0.90"),
 ]
 leg = ax_d.legend(handles=legend_handles, loc="lower left",

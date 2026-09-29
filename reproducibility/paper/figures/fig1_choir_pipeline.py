@@ -94,9 +94,11 @@ node("F", 1.70, 6.45, r"$\hat F(\cdot\,|\,x)$", r=0.52, fs=8.4)
 node("c", 3.85, 6.45, r"$\hat c(x)$", r=0.46, fs=8.8)
 node("g", 5.90, 6.45, r"$R(x)$", r=0.46, fs=8.8)
 node("w", 8.05, 6.45, r"$\hat w(x)$", r=0.46, fs=8.8)
-for nm in ("F", "c", "g", "w"):
+for nm in ("F", "c", "g"):
     x, y, r = nodes[nm]
     hyper(x, 7.32, r"$\mathcal{I}_{\mathrm{tr}}$", nm, color=SLATE)
+x, y, r = nodes["w"]
+hyper(x, 7.32, r"$\mathcal{I}_{\mathrm{ref}}$", "w", color=SLATE)
 # unlabeled target covariates -> density ratio (dashed GOLD)
 ax.add_patch(Rectangle((9.15, 7.02), 0.44, 0.44, facecolor="white",
                        edgecolor=GOLD, linewidth=0.9, zorder=4))
@@ -145,7 +147,7 @@ cx, cy = 13.00, 2.30
 ax.add_patch(FancyBboxPatch((cx - CERT_W / 2, cy - CERT_H / 2), CERT_W, CERT_H,
                             boxstyle="round,pad=0.02,rounding_size=0.10",
                             facecolor="white", edgecolor=INK, linewidth=0.9, zorder=4))
-ax.text(cx, cy + 0.24, r"$\mathrm{Cert}(a)$", ha="center", va="center",
+ax.text(cx, cy + 0.24, r"$\mathrm{Diag}$", ha="center", va="center",
         fontsize=8.0, zorder=5)
 ax.text(cx, cy - 0.23,
         r"$\left(1{-}\alpha,\ \hat\Delta_{\mathrm{emp}}^{\,\mathrm{LCB}},\ \cdot\right)$",
@@ -180,7 +182,7 @@ for i, (t, b) in enumerate(bbs):
 inside = all(b.x0 >= 0 and b.y0 >= 0 and b.x1 <= fig.bbox.width and
              b.y1 <= fig.bbox.height for _, b in bbs)
 # no-prose gate: after stripping math, only allowed word fragments may remain
-ALLOWED = {"Cert", "cal", "tr", "emp", "LCB", "mon", "max"}
+ALLOWED = {"Cert", "Diag", "cal", "tr", "ref", "emp", "LCB", "mon", "max"}
 prose = []
 for t in texts:
     for w in re.findall(r"[A-Za-z]{2,}", re.sub(r"\\[A-Za-z]+", " ", t.get_text())):
